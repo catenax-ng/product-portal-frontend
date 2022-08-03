@@ -51,8 +51,8 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Set env
       - uses: actions/checkout@v2
+      - name: Set env
         run: echo "BRANCH=${{ steps.meta.outputs.tags }}" >> $GITHUB_ENV
       - name: Test
         run: |
