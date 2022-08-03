@@ -14,62 +14,57 @@ env:
   COMMIT_SHA: ${{ github.sha }}
 
 jobs:
-  build-and-push-image:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
+  # build-and-push-image:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: read
+  #     packages: write
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.ref }}
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
+  #       with:
+  #         ref: ${{ github.ref }}
 
-      - name: Install Dependencies
-        run: yarn
+  #     - name: Install Dependencies
+  #       run: yarn
 
-      - name: Linter Checks
-        run: yarn lint
+  #     - name: Linter Checks
+  #       run: yarn lint
 
-      - name: Build Library and Portal
-        run: yarn build
+  #     - name: Build Library and Portal
+  #       run: yarn build
 
-      - name: Unit Tests
-        run: yarn test:ci
+  #     - name: Unit Tests
+  #       run: yarn test:ci
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Login to GitHub Container Registry
+  #       uses: docker/login-action@v1
+  #       with:
+  #         registry: ${{ env.REGISTRY }}
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract Metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+  #     - name: Extract Metadata (tags, labels) for Docker
+  #       id: meta
+  #       uses: docker/metadata-action@v3
+  #       with:
+  #         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: .conf/Dockerfile.prebuilt
-          push: true
-          # build tag :dev and commit-sha
-          tags: ${{ steps.meta.outputs.tags }}_${{ env.COMMIT_SHA }}
-          # build tag :latest
-          # tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-          labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Set env
-        run: echo "GITHUB_REF=${{ steps.meta.outputs.tags }" >> $GITHUB_ENV
-      - name: Test
-        run: echo $GITHUB_REF
+  #     - name: Build and push Docker image
+  #       uses: docker/build-push-action@v2
+  #       with:
+  #         context: .
+  #         file: .conf/Dockerfile.prebuilt
+  #         push: true
+  #         # build tag :dev and commit-sha
+  #         tags: ${{ steps.meta.outputs.tags }}_${{ env.COMMIT_SHA }}
+  #         # build tag :latest
+  #         # tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+  #         labels: ${{ steps.meta.outputs.labels }}
 
   auth-and-dispatch:
-    needs: build-and-push-image
+    # needs: build-and-push-image
     runs-on: ubuntu-latest
 
     steps:
@@ -90,5 +85,5 @@ jobs:
             --url https://api.github.com/repos/catenax-ng/product-portal-cd/actions/workflows/portal-image-update.yml/dispatches \
             --header "authorization: Bearer $TOKEN" \
             --header "Accept: application/vnd.github.v3+json" \
-            --data '{"ref":"feature/CPLP-1074_auto_image_update-frontend", "inputs": { "new-image":"${{ env.GITHUB_REF }_${{ env.COMMIT_SHA }}" }}' \
+            --data '{"ref":"feature/CPLP-1074_auto_image_update-frontend", "inputs": { "new-image":"${{ github.ref }}_${{ env.COMMIT_SHA }}" }}' \
             --fail
