@@ -64,7 +64,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Set env
-        run: echo "GITHUB_REF=$(echo ${{ steps.meta.outputs.tags })" >> $GITHUB_ENV
+        run: echo "GITHUB_REF=${{ steps.meta.outputs.tags }" >> $GITHUB_ENV
       - name: Test
         run: echo $GITHUB_REF
 
