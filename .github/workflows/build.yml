@@ -50,7 +50,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-     - name: Build and push Docker image
+      - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -74,7 +74,7 @@ jobs:
           application_id: ${{ secrets.ORG_PORTAL_DISPATCH_APPID }}
           application_private_key: ${{ secrets.ORG_PORTAL_DISPATCH_KEY }}
 
-      # The triggered workflow isn't enabled for branch names / github.ref_name containing special characters like / for example 'feature/...'
+      # The triggered workflow isn't enabled for branch names / github.ref_name containing special characters like '/' for example 'feature/...'
       - name: Trigger workflow
         id: call_action
         env:
