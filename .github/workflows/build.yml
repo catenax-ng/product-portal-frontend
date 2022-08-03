@@ -12,7 +12,6 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   COMMIT_SHA: ${{ github.sha }}
-  BRANCH: ${{ steps.meta.outputs.tags }}
 
 jobs:
   # build-and-push-image:
