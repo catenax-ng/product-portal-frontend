@@ -57,10 +57,8 @@ jobs:
           context: .
           file: .conf/Dockerfile.prebuilt
           push: true
-          # build tag :commit-sha
-          tags: ${{ env.COMMIT_SHA }}
-          # build tag :dev
-          # tags: ${{ steps.meta.outputs.tags }}
+          # build tag :dev and commit-sha
+          tags: ${{ steps.meta.outputs.tags }}_${{ env.COMMIT_SHA }}
           # build tag :latest
           # tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
@@ -87,5 +85,5 @@ jobs:
             --url https://api.github.com/repos/catenax-ng/product-portal-cd/actions/workflows/portal-image-update.yml/dispatches \
             --header "authorization: Bearer $TOKEN" \
             --header "Accept: application/vnd.github.v3+json" \
-            --data '{"ref":"main", "inputs": { "new-image":"${{ env.COMMIT_SHA }}" }}' \
+            --data '{"ref":"main", "inputs": { "new-image":"${{ steps.meta.outputs.tags }}_${{ env.COMMIT_SHA }}" }}' \
             --fail
