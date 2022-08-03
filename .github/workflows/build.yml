@@ -86,5 +86,5 @@ jobs:
             --url https://api.github.com/repos/catenax-ng/product-portal-cd/actions/workflows/portal-image-update.yml/dispatches \
             --header "authorization: Bearer $TOKEN" \
             --header "Accept: application/vnd.github.v3+json" \
-            --data '{"ref":"feature/CPLP-1074_auto_image_update-frontend", "inputs": { "new-image":"${{ env.BRANCH }}_${{ env.COMMIT_SHA }}" }}' \
+            --data '{"ref":"feature/CPLP-1074_auto_image_update-frontend", "inputs": { "new-image":"$GITHUB_REF_${{ env.COMMIT_SHA }}" }}' \
             --fail
