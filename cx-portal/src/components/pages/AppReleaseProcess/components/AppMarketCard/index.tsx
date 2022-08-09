@@ -61,6 +61,7 @@ export default function AppMarketCard() {
       alt: '',
     },
   })
+  const cardAppTitle = formData.appTitle || t('content.apprelease.appMarketCard.defaultCardAppTitle')
 
   window.onscroll = () => setPageScrolled(window.scrollY !== 0)
 
@@ -109,7 +110,7 @@ export default function AppMarketCard() {
                 src: formData.uploadImage.src || 'https://catenaxdev003util.blob.core.windows.net/assets/apps/images/Lead-Default.png',
                 alt: formData.uploadImage.alt || t('content.apprelease.appMarketCard.defaultCardAppImageAlt')
               }}
-              title={formData.appTitle || t('content.apprelease.appMarketCard.defaultCardAppTitle')}
+              title={cardAppTitle}
               subtitle={formData.appProvider || t('content.apprelease.appMarketCard.defaultCardAppProvider')}
               description={formData.shortDescriptionEN || t('content.apprelease.appMarketCard.defaultCardShortDescriptionEN')}
               imageSize="normal"
@@ -128,7 +129,7 @@ export default function AppMarketCard() {
           >
             <CardHorizontal
               label={formData.appProvider || t('content.apprelease.appMarketCard.defaultCardAppProvider')}
-              title={formData.appTitle || t('content.apprelease.appMarketCard.defaultCardAppTitle')}
+              title={cardAppTitle}
               imagePath={formData.uploadImage.src || 'https://catenaxdev003util.blob.core.windows.net/assets/apps/images/Lead-Default.png'}
               imageAlt={formData.uploadImage.alt || t('content.apprelease.appMarketCard.defaultCardAppImageAlt')}
               borderRadius={0}
