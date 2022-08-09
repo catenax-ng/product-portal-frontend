@@ -15,6 +15,7 @@ export interface MultiSelectListProps extends Omit<TextFieldProps, 'variant'> {
   items: any[]
   label: string
   placeholder: string
+  title?: string
   popperHeight?: number
   variant?: 'filled'
   clearText?: string
@@ -26,6 +27,7 @@ export const MultiSelectList = ({
   items,
   label,
   placeholder,
+  title,
   variant,
   margin,
   focused,
@@ -39,6 +41,7 @@ export const MultiSelectList = ({
 }: MultiSelectListProps) => {
   const selectHeight = popperHeight ? `${popperHeight}px` : 'auto'
   const theme = useTheme()
+  const optionTitle = title || "title"
 
   return (
     <Autocomplete
@@ -53,13 +56,13 @@ export const MultiSelectList = ({
       multiple
       disabled={disabled}
       options={items.map((item) => item)}
-      getOptionLabel={(option) => option.title}
+      getOptionLabel={(option) => option[optionTitle]}
       renderTags={(value: string[], getTagProps) => {
         return value.map((option: any, index: number) => (
           <Chip
             {...getTagProps({ index })}
             variant="filled"
-            label={option.title}
+            label={option[optionTitle]}
             sx={{
               borderRadius: '16px',
               border: `1px solid ${theme.palette.accent.accent03} !important`,
@@ -98,8 +101,8 @@ export const MultiSelectList = ({
         />
       )}
       renderOption={(props, option, { inputValue }) => {
-        const matches = match(option.title, inputValue)
-        const parts: PartsType[] = parse(option.title, matches)
+        const matches = match(option[optionTitle], inputValue)
+        const parts: PartsType[] = parse(option[optionTitle], matches)
         return (
           <SelectOptions
             props={props}

@@ -65,6 +65,7 @@ MultiSelectList.args = {
   items: items,
   label: 'Label Name',
   placeholder: 'Enter label name (type min 2 character)',
+  title: "title",
   helperText: 'Helper',
   disabled: false,
   error: false,

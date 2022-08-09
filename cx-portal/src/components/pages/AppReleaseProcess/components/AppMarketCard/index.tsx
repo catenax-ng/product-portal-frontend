@@ -18,23 +18,43 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Button, Input, Typography, IconButton, CardHorizontal, Card } from 'cx-portal-shared-components'
+import { Button, Input, Typography, IconButton, CardHorizontal, Card, MultiSelectList } from 'cx-portal-shared-components'
 import { useTranslation } from 'react-i18next'
 import { Grid, InputLabel, Divider, Box } from '@mui/material'
 import { useState } from 'react'
-import LeftArrowIcon from '@mui/icons-material/ArrowLeft'
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
+import { useFetchUseCasesQuery, useFetchAppLanguagesQuery, useCasesItem, appLanguagesItem } from 'features/appManagement/apiSlice'
 import './AppMarketCard.scss'
+
+type FormDataType = {
+  appTitle: string
+  appProvider: string
+  shortDescriptionEN: string
+  shortDescriptionDE: string
+  useCaseCategory: useCasesItem[],
+  appLanguage: appLanguagesItem[]
+  pricingInformation: string
+  uploadImage: {
+    src: string
+    alt: string
+  }
+}
 
 export default function AppMarketCard() {
   const { t } = useTranslation()
   const [pageScrolled, setPageScrolled] = useState(false)
-  const [formData, setFormData] = useState({
+  const [shortDescriptionENCount, setShortDescriptionENCount] = useState(0)
+  const [shortDescriptionDECount, setShortDescriptionDECount] = useState(0)
+  const useCasesList = useFetchUseCasesQuery().data
+  const appLanguagesList = useFetchAppLanguagesQuery().data
+  const [formData, setFormData] = useState<FormDataType>({
     appTitle: '',
     appProvider: '',
     shortDescriptionEN: '',
     shortDescriptionDE: '',
-    useCaseCategory: '',
-    appLanguage: '',
+    useCaseCategory: [],
+    appLanguage: [],
     pricingInformation: '',
     uploadImage: {
       src: '',
@@ -48,6 +68,15 @@ export default function AppMarketCard() {
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
+    })
+    event.target.name === "shortDescriptionEN" && setShortDescriptionENCount(event.target.value.length)
+    event.target.name === "shortDescriptionDE" && setShortDescriptionDECount(event.target.value.length)
+  }
+
+  const handleUseCaseChange = (event: any[], name: string) => {
+    setFormData({
+      ...formData,
+      [name]: event
     })
   }
 
@@ -104,6 +133,7 @@ export default function AppMarketCard() {
               imageAlt={formData.uploadImage.alt || t('content.apprelease.appMarketCard.defaultCardAppImageAlt')}
               borderRadius={0}
               description={formData.shortDescriptionEN || t('content.apprelease.appMarketCard.defaultCardShortDescriptionEN')}
+              backgroundColor='#F3F3F3'
             />
           </Grid>
         )}
@@ -116,7 +146,7 @@ export default function AppMarketCard() {
             <Input
               label={t('content.apprelease.appMarketCard.appTitle')}
               name={'appTitle'}
-              placeholder={'name@domain.com'}
+              placeholder={t('content.apprelease.appMarketCard.appTitlePlaceholder')}
               value={formData.appTitle}
               onChange={handleChange}
               className="form-field"
@@ -124,7 +154,7 @@ export default function AppMarketCard() {
             <Input
               label={t('content.apprelease.appMarketCard.appProvider')}
               name={'appProvider'}
-              placeholder={'prefill: [company name]'}
+              placeholder={t('content.apprelease.appMarketCard.appProviderPlaceholder')}
               value={formData.appProvider}
               className="form-field"
               onChange={handleChange}
@@ -136,10 +166,14 @@ export default function AppMarketCard() {
               name="shortDescriptionEN"
               value={formData.shortDescriptionEN}
               rows={4}
-              maxLength={100}
-              className="text-area form-field"
+              maxLength={200}
+              className="text-area"
               onChange={handleChange}
             />
+            <Typography variant="body2" className="form-field" align='right'>
+              {`${shortDescriptionENCount}/200`}
+            </Typography>
+
             <InputLabel>
               {t('content.apprelease.appMarketCard.shortDescriptionDE')}
             </InputLabel>
@@ -147,20 +181,35 @@ export default function AppMarketCard() {
               name="shortDescriptionDE"
               value={formData.shortDescriptionDE}
               rows={4}
-              maxLength={100}
-              className="text-area form-field"
+              maxLength={200}
+              className="text-area"
               onChange={handleChange}
             />
-            <InputLabel id="use_case_category">
-              {t('content.apprelease.appMarketCard.useCaseCategory')}
-            </InputLabel>
-            <InputLabel id="app_language">
-              {t('content.apprelease.appMarketCard.appLanguage')}
-            </InputLabel>
+            <Typography variant="body2" className="form-field" align='right'>
+              {`${shortDescriptionDECount}/200`}
+            </Typography>
+            <div className="form-field">
+              <MultiSelectList
+                items={useCasesList || []}
+                label={t('content.apprelease.appMarketCard.useCaseCategory')}
+                placeholder={t('content.apprelease.appMarketCard.useCaseCategoryPlaceholder')}
+                title="name"
+                onAddItem={(items: useCasesItem[]) => handleUseCaseChange(items, "useCaseCategory")}
+              />
+            </div>
+            <div className="form-field">
+              <MultiSelectList
+                items={appLanguagesList || []}
+                label={t('content.apprelease.appMarketCard.appLanguage')}
+                placeholder={t('content.apprelease.appMarketCard.appLanguagePlaceholder')}
+                title="languageShortName"
+                onAddItem={(items: appLanguagesItem[]) => handleUseCaseChange(items, "appLanguage")}
+              />
+            </div>
             <Input
               label={t('content.apprelease.appMarketCard.pricingInformation')}
               name={'pricingInformation'}
-              placeholder={'Pricing Information'}
+              placeholder={t('content.apprelease.appMarketCard.pricingInformationPlaceholder')}
               value={formData.pricingInformation}
               className="form-field"
               onChange={handleChange}
@@ -173,11 +222,14 @@ export default function AppMarketCard() {
             </Typography>
             <Box mb={2}>
               <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
-              <Button variant="outlined" sx={{ mr: 1 }}>
+              <Button variant="outlined" sx={{ mr: 1 }} >
+                <IconButton size="small">
+                  <HelpOutlineIcon />
+                </IconButton>
                 {t('content.apprelease.appMarketCard.help')}
               </Button>
               <IconButton color="secondary">
-                <LeftArrowIcon />
+                <KeyboardArrowLeftIcon />
               </IconButton>
               <Button
                 variant="outlined"
