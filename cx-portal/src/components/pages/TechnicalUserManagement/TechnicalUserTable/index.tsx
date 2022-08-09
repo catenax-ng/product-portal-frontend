@@ -1,4 +1,4 @@
-import { IconButton, Table } from 'cx-portal-shared-components'
+import { IconButton, Table, Button } from 'cx-portal-shared-components'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
@@ -62,12 +62,23 @@ export const TechnicalUserTable = () => {
           },
         ]}
         rows={serviceAccounts}
+        rowsCount={serviceAccounts.meta.totalElements}
         getRowId={(row: { [key: string]: string }) =>
           uniqueId(row.serviceAccountId)
-        }
+        sx={{ marginTop: '80px' }}
         disableColumnMenu
         hideFooter
-      />
-    </div>
+        />
+        <div className="load-more-button-container">
+          {serviceAccounts.meta.totalPages !== serviceAccounts.meta.page + 1 && (
+            <Button
+              size="medium"
+              sx={{ mt: 15 }}
+              onClick={() => setPageNumber((prevState) => prevState + 1)}
+            >
+              {t('content.invite.load_button')}
+            </Button>
+          )}
+        </div>
   )
 }
