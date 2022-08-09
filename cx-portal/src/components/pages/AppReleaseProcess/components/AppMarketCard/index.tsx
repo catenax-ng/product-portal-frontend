@@ -105,10 +105,17 @@ export default function AppMarketCard() {
             className={'card'}
           >
             <Card
-              image={{
-                src: formData.uploadImage.src || 'https://catenaxdev003util.blob.core.windows.net/assets/apps/images/Lead-Default.png',
-                alt: formData.uploadImage.alt || t('content.apprelease.appMarketCard.defaultCardAppImageAlt')
-              }}
+              image={formData.uploadImage.src ?
+                {
+                  src: formData.uploadImage.src,
+                  alt: formData.uploadImage.alt
+                }
+                :
+                {
+                  src: 'https://catenaxdev003util.blob.core.windows.net/assets/apps/images/Lead-Default.png',
+                  alt: t('content.apprelease.appMarketCard.defaultCardAppImageAlt')
+                }
+              }
               title={formData.appTitle || t('content.apprelease.appMarketCard.defaultCardAppTitle')}
               subtitle={formData.appProvider || t('content.apprelease.appMarketCard.defaultCardAppProvider')}
               description={formData.shortDescriptionEN || t('content.apprelease.appMarketCard.defaultCardShortDescriptionEN')}
@@ -168,6 +175,7 @@ export default function AppMarketCard() {
               rows={4}
               maxLength={200}
               className="text-area"
+              style={{ fontFamily: 'LibreFranklin-Light' }}
               onChange={handleChange}
             />
             <Typography variant="body2" className="form-field" align='right'>
@@ -183,6 +191,7 @@ export default function AppMarketCard() {
               rows={4}
               maxLength={200}
               className="text-area"
+              style={{ fontFamily: 'LibreFranklin-Light' }}
               onChange={handleChange}
             />
             <Typography variant="body2" className="form-field" align='right'>
