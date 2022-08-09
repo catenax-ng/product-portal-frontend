@@ -46,8 +46,8 @@ export default function AppMarketCard() {
   const [pageScrolled, setPageScrolled] = useState(false)
   const [shortDescriptionENCount, setShortDescriptionENCount] = useState(0)
   const [shortDescriptionDECount, setShortDescriptionDECount] = useState(0)
-  const useCasesList = useFetchUseCasesQuery().data
-  const appLanguagesList = useFetchAppLanguagesQuery().data
+  const useCasesList = useFetchUseCasesQuery().data || []
+  const appLanguagesList = useFetchAppLanguagesQuery().data || []
   const [formData, setFormData] = useState<FormDataType>({
     appTitle: '',
     appProvider: '',
@@ -105,17 +105,10 @@ export default function AppMarketCard() {
             className={'card'}
           >
             <Card
-              image={formData.uploadImage.src ?
-                {
-                  src: formData.uploadImage.src,
-                  alt: formData.uploadImage.alt
-                }
-                :
-                {
-                  src: 'https://catenaxdev003util.blob.core.windows.net/assets/apps/images/Lead-Default.png',
-                  alt: t('content.apprelease.appMarketCard.defaultCardAppImageAlt')
-                }
-              }
+              image={{
+                src: formData.uploadImage.src || 'https://catenaxdev003util.blob.core.windows.net/assets/apps/images/Lead-Default.png',
+                alt: formData.uploadImage.alt || t('content.apprelease.appMarketCard.defaultCardAppImageAlt')
+              }}
               title={formData.appTitle || t('content.apprelease.appMarketCard.defaultCardAppTitle')}
               subtitle={formData.appProvider || t('content.apprelease.appMarketCard.defaultCardAppProvider')}
               description={formData.shortDescriptionEN || t('content.apprelease.appMarketCard.defaultCardShortDescriptionEN')}
@@ -199,7 +192,7 @@ export default function AppMarketCard() {
             </Typography>
             <div className="form-field">
               <MultiSelectList
-                items={useCasesList || []}
+                items={useCasesList}
                 label={t('content.apprelease.appMarketCard.useCaseCategory')}
                 placeholder={t('content.apprelease.appMarketCard.useCaseCategoryPlaceholder')}
                 title="name"
@@ -208,7 +201,7 @@ export default function AppMarketCard() {
             </div>
             <div className="form-field">
               <MultiSelectList
-                items={appLanguagesList || []}
+                items={appLanguagesList}
                 label={t('content.apprelease.appMarketCard.appLanguage')}
                 placeholder={t('content.apprelease.appMarketCard.appLanguagePlaceholder')}
                 title="languageShortName"
