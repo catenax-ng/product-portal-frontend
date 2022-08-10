@@ -182,5 +182,5 @@ export const NodeDetails = ({ twin }: { twin: ShellDescriptor }) => {
     return items
   }
 
-  return <CustomAccordion items={accordionItems()}/>
+  return <CustomAccordion items={accordionItems()} />
 }

@@ -44,14 +44,13 @@ export const NodeDetailsTwo = ({ twin }: { twin: ShellDescriptor }) => {
   //     setShowTombstone(bol)
   // }
 
-
   const secondaryContent = (
     subModel: SubmodelDescriptors,
     semId: string,
     idKey: string
   ) => (
     <>
-      <h1 style={{marginTop:'100px'}}>Aspect: {subModel.idShort}</h1>
+      <h1 style={{ marginTop: '100px' }}>Aspect: {subModel.idShort}</h1>
       <h2>Submodel Descriptor</h2>
       {getDesciption(subModel)}
       <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
@@ -149,19 +148,14 @@ export const NodeDetailsTwo = ({ twin }: { twin: ShellDescriptor }) => {
               )}
             </Box>
           ))}
-        
-        {twin.submodelDescriptors.map((subModel, indexSubmodel) => {
-          return secondaryContent(
-            subModel,
-            subModel.semanticId.value[0],
-            `${subModel.idShort}_${indexSubmodel}`
-          )
-          
-        })}
-      
 
-
-
+          {twin.submodelDescriptors.map((subModel, indexSubmodel) => {
+            return secondaryContent(
+              subModel,
+              subModel.semanticId.value[0],
+              `${subModel.idShort}_${indexSubmodel}`
+            )
+          })}
         </>
       )}
     </>
