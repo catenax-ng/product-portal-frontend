@@ -52,13 +52,7 @@ export const SubmodelDetailCard = ({ submodel, aasId }: props) => {
   })
 
   const submodelId = submodel.identification
-  const submodelPayload = useSelector((state) => {
-    if (submodelId) {
-      return getSubmodelPaloadBySubmodelId(state, submodelId)
-    } else {
-      return []
-    }
-  })
+  const submodelPayload = useSelector ((state) => submodelId ? getSubmodelPaloadBySubmodelId(state, submodelId) : [])
 
   if (!tombstones || !submodelPayload) {
     return null
@@ -75,7 +69,7 @@ export const SubmodelDetailCard = ({ submodel, aasId }: props) => {
           onClick={(event: any) => {
             event.preventDefault()
             // console.log('CLICK', aasId)
-            dispatch(jobSlice.actions.openDialog(aasId))
+            dispatch(jobSlice.actions.openNodeDialog(aasId))
           }}
         >
           {submodel.idShort}

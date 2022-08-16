@@ -23,13 +23,18 @@ export interface JobsInitialState {
   jobs: irsjobs
   job: Nullable<irsjob>
   nodeDialog: nodeDialog
+  edgeDialog: edgeDialog
   loading: boolean
   error: string
 }
-
 export interface nodeDialog {
   showNodeDialog: boolean
   nodeId: string
+}
+
+export interface edgeDialog {
+  showEdgeDialog: boolean
+  edgeId: string
 }
 
 export interface irsjobstatus {
@@ -60,7 +65,7 @@ export interface jobinfo {
   summary: Summary
 }
 
-interface Relationship {
+export interface Relationship {
   catenaXId: string
   childItem: childItem
 }

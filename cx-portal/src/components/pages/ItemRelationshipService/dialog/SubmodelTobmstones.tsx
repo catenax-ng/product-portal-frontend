@@ -31,6 +31,10 @@ import SyntaxHighlighter from 'react-syntax-highlighter'
 import { googlecode } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
+import { useTheme, Grid } from '@mui/material'
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
+import SourceIcon from '@mui/icons-material/Source'
+
 interface props {
   subModel: SubmodelDescriptors
   // hasTombstones?: (x:boolean) => void
@@ -39,6 +43,7 @@ interface props {
 
 export const SubmodelTobmstones = ({ subModel }: props) => {
   const { t } = useTranslation()
+  const theme = useTheme()
 
   const tombstones: Tombstones[] | [] = useSelector((state) => {
     if (subModel != null) {
@@ -69,12 +74,35 @@ export const SubmodelTobmstones = ({ subModel }: props) => {
   return (
     <>
       {hasTombstoness && (
-        <Box key={'tombstones'}>
-          <h2>{t('content.irs.dialog.submodelTombstones.title')}</h2>
+        <Box key={'tombstones'} >
+          <Box style={{ display: 'inline-block', color: theme.palette.error.light, marginTop:20}}>
+            <ErrorOutlineIcon style={{ fontSize: 50, float: 'left', verticalAlign: 'middle', marginTop: 10 }}></ErrorOutlineIcon>
+            <h2 style={{ float: 'left', marginLeft: 10 }}>
+              {t('content.irs.dialog.submodelTombstones.title')}
+            </h2>
+          </Box>
+
+          {/* <Grid
+            container
+            sx={{
+              width: `calc(100% + ${theme.spacing(4)})`,
+              m: `0 -${theme.spacing(2)}`,
+              p: 2,
+              typography: 'label3',
+              bgcolor: theme.palette.error.light,
+            }}
+          >
+            <Grid item xs={12}>
+              <ErrorOutlineIcon style={{paddingTop:5}}></ErrorOutlineIcon> {t('content.irs.dialog.submodelTombstones.title')}
+            </Grid>
+          </Grid> */}
+
           {tombstones.map((stone) => {
             // console.log(JSON.parse('{'+stone.processingError.errorDetail.toString()+'}'))
             return (
+
               <Box key={`stone_${stone.catenaXId}_${stone.endpointURL}`}>
+
                 <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
                 <DetailGrid
                   topic={t('content.irs.dialog.submodelTombstones.lastAttempt')}
@@ -102,17 +130,27 @@ export const SubmodelTobmstones = ({ subModel }: props) => {
 
       {hasPayload() && (
         <>
-          <h2>{t('content.irs.dialog.submodelPayload.title')}</h2>
+
+          <Box style={{ display: 'inline-block', color: theme.palette.success.main, marginTop:20 }}>
+            <SourceIcon style={{ fontSize: 50, float: 'left', verticalAlign: 'middle', marginTop: 10 }}></SourceIcon>
+            <h2 style={{ float: 'left', marginLeft: 10 }}>
+              {t('content.irs.dialog.submodelPayload.title')}
+            </h2>
+          </Box>
+
+          {/* <h2 style={{ color: theme.palette.success.main }}>{t('content.irs.dialog.submodelPayload.title')}</h2> */}
           {submodelPayload.map((payload) => {
+            console.log(payload.payload)
             return (
               <Box
                 key={`payload_${payload.identification}_${payload.aspectType}`}
               >
                 <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
+
                 <DetailGrid
                   topic={t('content.irs.dialog.submodelPayload.payload')}
                   content={
-                    <SyntaxHighlighter style={googlecode}>
+                    <SyntaxHighlighter key={`payload_${payload.identification}_${payload.aspectType}_syntax`} style={googlecode} language="json" >
                       {JSON.stringify(JSON.parse(payload.payload), null, 2)}
                     </SyntaxHighlighter>
                   }

@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021,2022 BMW Group AG
+* Copyright (c) 2021,2022 BMW Group AG
  * Copyright (c) 2021,2022 Contributors to the CatenaX (ng) GitHub Organisation.
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -31,12 +31,14 @@ import jobSlice, {
   edgeSelector,
   nodeDialogSelector,
   jobsSelector,
+  edgeDialogSelector,
 } from 'features/irs/slice'
 import { NodeTemplate } from './visualization/nodeTemplate'
 import { IrsJobDetails } from './irsJobDetails'
 import { NodeDetailDialog } from './dialog/NodeDetailDialog'
 import { store } from '../../../features/store'
 import { useTranslation } from 'react-i18next'
+import { EdgeDetailDialog } from './dialog/EdgeDetailDialog'
 
 // What to do for integration in this project
 // 1. install dependencies
@@ -55,6 +57,19 @@ import { useTranslation } from 'react-i18next'
 //      "itemrelationshipservice": "Item Relationship Service"
 // 8. Add reducer to store   isr: jobSlice.reducer,
 // 9. Change return 'https://centralidp.demo.catena-x.net/auth' in EnvironmentService for Authentication with the correct Keycloak
+// 10. Start a Job on dev
+    // {
+    //   "aspects": [
+    //       "AssemblyPartRelationship",
+    //       "SerialPartTypization"
+    //   ],
+    //   "bomlLifecycle":"asBuilt",
+    //   "collectAspects": true,
+    //   "direction":"downward",
+    //   "depth":10,
+    //   "globalAssetId": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"
+    // }
+
 
 // LOP
 // ✅ Graph chart, when nodes are missing
@@ -76,18 +91,26 @@ import { useTranslation } from 'react-i18next'
 // ✅ Clean up types
 // ✅ Change highlighter to https://github.com/react-syntax-highlighter/react-syntax-highlighter
 // ✅  Refactor Dialog
+// ✅ SyntaxHiglighter does not work properly lower Nodes
+// ✅  Style Dialog NodeDetailsTwo
+// ✅ Add Click event on Node
+// ✅ Add additional Information for Edge
 // MAYBE: change visualization to D3 https://codesandbox.io/examples/package/react-d3-tree
 // TODO: Refactor to new API Logic
 // TODO: Automatic Refresh Toggle
 // TODO: Change functionality to show Items, where Registry Call has not been done yet (Links which have been filtered out!)
-// TODO: Add Click event on Node
-// TODO: Add additional Information for Edge
+// TODO: Choose button environment int dev
+// TODO: Add Area to start a Job
+// TODO: Decople FE from Portal
+// TODO: Refactor Visualization on scroll
+// TODO: Style and cleanup Edge Details: CSS, Slice, Types
 
 export default function ItemRelationshipService() {
   const { t } = useTranslation()
   const { jobs, loading } = useSelector(jobsSelector)
   const { job } = useSelector(jobsSelector)
   const { showNodeDialog } = useSelector(nodeDialogSelector)
+  const { showEdgeDialog } = useSelector(edgeDialogSelector)
   const nodes = useSelector(nodeSelector)
   const edges = useSelector(edgeSelector)
 
@@ -107,9 +130,14 @@ export default function ItemRelationshipService() {
   //   }
   // })
 
-  const closeDialog = () => {
-    dispatch(jobSlice.actions.closeDialog())
+  const closeNodeDialog = () => {
+    dispatch(jobSlice.actions.closeNodeDialog())
   }
+
+  const closeEdgeDialog = () => {
+    dispatch(jobSlice.actions.closeEdgeDialog())
+  }
+
 
   const visualize = (id: string) => {
     const encodedId = encodeURIComponent(id)
@@ -168,7 +196,15 @@ export default function ItemRelationshipService() {
               edges={edges}
               defaultPosition={CanvasPosition.TOP}
               node={
-                <Node removable={false} style={nodeStyle}>
+                <Node 
+                removable={false} 
+                style={nodeStyle}
+                onClick={(event: any, node) => {
+                  event.preventDefault()
+                  console.log('CLICK', node)
+                  dispatch(jobSlice.actions.openNodeDialog(node.id))
+                }}
+                >
                   {(nodeChild) => (
                     <foreignObject
                       height={290}
@@ -192,8 +228,9 @@ export default function ItemRelationshipService() {
                   removable={false}
                   className="edge"
                   style={edgeStyle}
-                  onClick={(event, node) => {
-                    console.log('Selecting Edge', event, node)
+                  onClick={(event, edge) => {
+                    console.log('Selecting Edge', event, edge)
+                    dispatch(jobSlice.actions.openEdgeDialog(edge))
                   }}
                 />
               }
@@ -204,8 +241,12 @@ export default function ItemRelationshipService() {
 
       <NodeDetailDialog
         show={showNodeDialog}
-        onClose={() => closeDialog()}
+        onClose={() => closeNodeDialog()}
       ></NodeDetailDialog>
+      <EdgeDetailDialog
+        show={showEdgeDialog}
+        onClose={() => closeEdgeDialog()}
+        ></EdgeDetailDialog>
     </main>
   )
 }

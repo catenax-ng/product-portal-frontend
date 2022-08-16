@@ -24,32 +24,28 @@ import {
   DialogHeader,
 } from 'cx-portal-shared-components'
 import { useSelector } from 'react-redux'
-import { nodeDialogSelector, getShells } from 'features/irs/slice'
-import { ShellDescriptor } from 'features/digitalTwins/types'
-import { NodeDetails } from './NodeDetails'
+import { edgeDialogSelector } from 'features/irs/slice'
 import { useTranslation } from 'react-i18next'
-import { NodeDetailsTwo } from './NodeDetailsTwo'
+import { EdgeDetails } from './EdgeDetails'
 
-interface NodeDialogProps {
+interface EdgeDialogProps {
   show: boolean
   onClose: () => void
 }
 
-export const NodeDetailDialog = ({ show, onClose }: NodeDialogProps) => {
+export const EdgeDetailDialog = ({ show, onClose }: EdgeDialogProps) => {
   const { t } = useTranslation()
-  const nodeDialoge = useSelector(nodeDialogSelector)
-  const shellList = useSelector(getShells)
-  const twin = shellList.find(
-    (x: ShellDescriptor) => x.identification === nodeDialoge.nodeId
-  )
+  const edgeDialoge = useSelector(edgeDialogSelector)
+  
   return (
     <Dialog open={show}>
       <DialogHeader
-        title={t('content.irs.dialog.title')}
+        title={'Edge Details'}
         closeWithIcon
         onCloseWithIcon={onClose}
       />
-      <DialogContent>{twin && <NodeDetailsTwo twin={twin} />}</DialogContent>
+      <DialogContent>
+        <EdgeDetails edge={edgeDialoge.edgeId} /></DialogContent>
     </Dialog>
   )
 }

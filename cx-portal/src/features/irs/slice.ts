@@ -21,6 +21,7 @@ import { createSlice, createSelector } from '@reduxjs/toolkit'
 import { RootState } from 'features/store'
 import { fetchJobById, fetchJobs } from './actions'
 import {
+  edgeDialog,
   irsjob,
   irsjobs,
   JobsInitialState,
@@ -28,6 +29,7 @@ import {
   ShellDescriptor,
   Submodels,
   Tombstones,
+  Relationship
 } from './types'
 import { EdgeData, NodeData } from 'reaflow'
 import { uniqueId } from 'lodash'
@@ -36,6 +38,7 @@ const initialState: JobsInitialState = {
   jobs: [],
   job: null,
   nodeDialog: { showNodeDialog: false, nodeId: '' },
+  edgeDialog: { showEdgeDialog: false, edgeId: '' },
   loading: false,
   error: '',
 }
@@ -44,13 +47,21 @@ const jobSlice = createSlice({
   name: 'irs',
   initialState,
   reducers: {
-    openDialog: (state, action) => {
+    openNodeDialog: (state, action) => {
       state.nodeDialog.showNodeDialog = true
       state.nodeDialog.nodeId = action.payload
     },
-    closeDialog: (state) => {
+    closeNodeDialog: (state) => {
       state.nodeDialog.showNodeDialog = false
       state.nodeDialog.nodeId = ''
+    },
+    openEdgeDialog: (state, action) => {
+      state.edgeDialog.showEdgeDialog = true
+      state.edgeDialog.edgeId = action.payload
+    },
+    closeEdgeDialog: (state) => {
+      state.edgeDialog.showEdgeDialog = false
+      state.edgeDialog.edgeId = ''
     },
   },
   extraReducers: (builder) => {
@@ -90,6 +101,9 @@ const jobSlice = createSlice({
 export const nodeDialogSelector = (state: RootState): nodeDialog =>
   state.irs.nodeDialog
 
+export const edgeDialogSelector = (state: RootState): edgeDialog =>
+  state.irs.edgeDialog
+
 export const jobsSelector = (state: RootState): JobsInitialState => state.irs
 
 export const nodeSelector = (state: RootState): NodeData<any>[] | [] => {
@@ -118,7 +132,7 @@ export const edgeSelector = (state: RootState): EdgeData<any>[] | [] => {
         return {
           id: uniqueId(rel.catenaXId),
           from: rel.catenaXId,
-          to: rel.childItem.childCatenaXId,
+          to: rel.childItem.childCatenaXId
         }
       }
     )
@@ -140,6 +154,27 @@ export const edgeSelector = (state: RootState): EdgeData<any>[] | [] => {
     return []
   }
 }
+
+const getEdges = (state: RootState): Relationship[] | [] => {
+  if(state.irs.job?.relationships) {
+    return state.irs.job.relationships
+  } else {
+    return []
+  }
+}
+
+const getEdge = (_: any, edge:{from:string, to:string, id:string}) => edge
+export const getEdgebyEdgeIdSelector =  createSelector(
+  getEdges,
+  getEdge,
+  (edges,edge) => {
+    if (edges){
+      // return edges
+      console.log('edge:',edge)
+      return edges.filter( x => x.catenaXId === edge.from && x.childItem.childCatenaXId === edge.to )
+    }
+  }
+)
 
 // https://flufd.github.io/reselect-with-multiple-parameters/
 const getTombstones = (state: any): Tombstones[] | [] => {

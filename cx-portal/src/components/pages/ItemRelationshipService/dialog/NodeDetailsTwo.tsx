@@ -50,8 +50,8 @@ export const NodeDetailsTwo = ({ twin }: { twin: ShellDescriptor }) => {
     idKey: string
   ) => (
     <>
-      <h1 style={{ marginTop: '100px' }}>Aspect: {subModel.idShort}</h1>
-      <h2>Submodel Descriptor</h2>
+      <h1 style={{ marginTop: '100px' }}>{subModel.idShort} aspect</h1>
+      <h3>Submodel Descriptor</h3>
       {getDesciption(subModel)}
       <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
       <DetailGrid

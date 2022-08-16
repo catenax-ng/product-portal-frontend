@@ -18,38 +18,31 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-} from 'cx-portal-shared-components'
-import { useSelector } from 'react-redux'
-import { nodeDialogSelector, getShells } from 'features/irs/slice'
-import { ShellDescriptor } from 'features/digitalTwins/types'
-import { NodeDetails } from './NodeDetails'
+import { Typography, CustomAccordion } from 'cx-portal-shared-components'
+import { ShellDescriptor, SubmodelDescriptors } from 'features/irs/types'
+import { DetailGrid } from '../../../shared/basic/DetailGrid'
+import { Grid, Box, Divider, useTheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { NodeDetailsTwo } from './NodeDetailsTwo'
+import SyntaxHighlighter from 'react-syntax-highlighter'
+import { googlecode } from 'react-syntax-highlighter/dist/esm/styles/hljs'
+import { useSelector } from 'react-redux'
+import { getEdgebyEdgeIdSelector } from 'features/irs/slice'
 
-interface NodeDialogProps {
-  show: boolean
-  onClose: () => void
-}
-
-export const NodeDetailDialog = ({ show, onClose }: NodeDialogProps) => {
+export const EdgeDetails = ({ edge }: { edge: any }) => {
+  const theme = useTheme()
   const { t } = useTranslation()
-  const nodeDialoge = useSelector(nodeDialogSelector)
-  const shellList = useSelector(getShells)
-  const twin = shellList.find(
-    (x: ShellDescriptor) => x.identification === nodeDialoge.nodeId
-  )
+
+  const edgeInfo = useSelector((state) => {
+      return getEdgebyEdgeIdSelector(state,edge)
+  })
+
+
   return (
-    <Dialog open={show}>
-      <DialogHeader
-        title={t('content.irs.dialog.title')}
-        closeWithIcon
-        onCloseWithIcon={onClose}
-      />
-      <DialogContent>{twin && <NodeDetailsTwo twin={twin} />}</DialogContent>
-    </Dialog>
+    <>
+      <SyntaxHighlighter key={`payload_${edge.id}_2`} style={googlecode} language="json" >
+        {JSON.stringify(edgeInfo, null, 2)}
+      </SyntaxHighlighter>
+    </>
+
   )
 }
