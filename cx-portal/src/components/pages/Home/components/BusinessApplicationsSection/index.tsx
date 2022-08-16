@@ -6,6 +6,7 @@ import PageService from 'services/PageService'
 import { useDispatch, useSelector } from 'react-redux'
 import { activeSelector } from 'features/apps/marketplaceDeprecated/slice'
 import { fetchActive } from 'features/apps/marketplaceDeprecated/actions'
+import './business-application.scss'
 
 export const label = 'BusinessApplictions'
 
@@ -21,7 +22,10 @@ export default function BusinessApplicationsSection() {
   const reference = PageService.registerReference(label, useRef(null))
 
   return (
-    <div ref={reference} className="orange-background">
+    <div
+      ref={reference}
+      className="orange-background business-applications-container"
+    >
       <section className="business-applications-section">
         <Typography
           sx={{

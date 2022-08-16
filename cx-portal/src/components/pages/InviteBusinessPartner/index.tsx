@@ -164,7 +164,7 @@ export default function InviteBusinessPartner() {
         <PageBreadcrumb backButtonVariant="contained" />
       </PageHeader>
 
-      <section>
+      <section className="invite-table-container">
         <Typography variant="h3" mb={3} align="center">
           {t('content.invite.subHeaderTitle')}
         </Typography>
