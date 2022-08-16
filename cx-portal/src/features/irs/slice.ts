@@ -29,7 +29,7 @@ import {
   ShellDescriptor,
   Submodels,
   Tombstones,
-  Relationship
+  Relationship,
 } from './types'
 import { EdgeData, NodeData } from 'reaflow'
 import { uniqueId } from 'lodash'
@@ -132,7 +132,7 @@ export const edgeSelector = (state: RootState): EdgeData<any>[] | [] => {
         return {
           id: uniqueId(rel.catenaXId),
           from: rel.catenaXId,
-          to: rel.childItem.childCatenaXId
+          to: rel.childItem.childCatenaXId,
         }
       }
     )
@@ -156,22 +156,25 @@ export const edgeSelector = (state: RootState): EdgeData<any>[] | [] => {
 }
 
 const getEdges = (state: RootState): Relationship[] | [] => {
-  if(state.irs.job?.relationships) {
+  if (state.irs.job?.relationships) {
     return state.irs.job.relationships
   } else {
     return []
   }
 }
 
-const getEdge = (_: any, edge:{from:string, to:string, id:string}) => edge
-export const getEdgebyEdgeIdSelector =  createSelector(
+const getEdge = (_: any, edge: { from: string; to: string; id: string }) => edge
+export const getEdgebyEdgeIdSelector = createSelector(
   getEdges,
   getEdge,
-  (edges,edge) => {
-    if (edges){
+  (edges, edge) => {
+    if (edges) {
       // return edges
-      console.log('edge:',edge)
-      return edges.filter( x => x.catenaXId === edge.from && x.childItem.childCatenaXId === edge.to )
+      console.log('edge:', edge)
+      return edges.filter(
+        (x) =>
+          x.catenaXId === edge.from && x.childItem.childCatenaXId === edge.to
+      )
     }
   }
 )

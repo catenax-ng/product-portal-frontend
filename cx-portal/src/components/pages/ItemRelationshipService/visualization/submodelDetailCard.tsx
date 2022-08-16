@@ -52,7 +52,9 @@ export const SubmodelDetailCard = ({ submodel, aasId }: props) => {
   })
 
   const submodelId = submodel.identification
-  const submodelPayload = useSelector ((state) => submodelId ? getSubmodelPaloadBySubmodelId(state, submodelId) : [])
+  const submodelPayload = useSelector((state) =>
+    submodelId ? getSubmodelPaloadBySubmodelId(state, submodelId) : []
+  )
 
   if (!tombstones || !submodelPayload) {
     return null

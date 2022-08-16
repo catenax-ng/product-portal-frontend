@@ -74,9 +74,22 @@ export const SubmodelTobmstones = ({ subModel }: props) => {
   return (
     <>
       {hasTombstoness && (
-        <Box key={'tombstones'} >
-          <Box style={{ display: 'inline-block', color: theme.palette.error.light, marginTop:20}}>
-            <ErrorOutlineIcon style={{ fontSize: 50, float: 'left', verticalAlign: 'middle', marginTop: 10 }}></ErrorOutlineIcon>
+        <Box key={'tombstones'}>
+          <Box
+            style={{
+              display: 'inline-block',
+              color: theme.palette.error.light,
+              marginTop: 20,
+            }}
+          >
+            <ErrorOutlineIcon
+              style={{
+                fontSize: 50,
+                float: 'left',
+                verticalAlign: 'middle',
+                marginTop: 10,
+              }}
+            ></ErrorOutlineIcon>
             <h2 style={{ float: 'left', marginLeft: 10 }}>
               {t('content.irs.dialog.submodelTombstones.title')}
             </h2>
@@ -100,9 +113,7 @@ export const SubmodelTobmstones = ({ subModel }: props) => {
           {tombstones.map((stone) => {
             // console.log(JSON.parse('{'+stone.processingError.errorDetail.toString()+'}'))
             return (
-
               <Box key={`stone_${stone.catenaXId}_${stone.endpointURL}`}>
-
                 <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
                 <DetailGrid
                   topic={t('content.irs.dialog.submodelTombstones.lastAttempt')}
@@ -130,9 +141,21 @@ export const SubmodelTobmstones = ({ subModel }: props) => {
 
       {hasPayload() && (
         <>
-
-          <Box style={{ display: 'inline-block', color: theme.palette.success.main, marginTop:20 }}>
-            <SourceIcon style={{ fontSize: 50, float: 'left', verticalAlign: 'middle', marginTop: 10 }}></SourceIcon>
+          <Box
+            style={{
+              display: 'inline-block',
+              color: theme.palette.success.main,
+              marginTop: 20,
+            }}
+          >
+            <SourceIcon
+              style={{
+                fontSize: 50,
+                float: 'left',
+                verticalAlign: 'middle',
+                marginTop: 10,
+              }}
+            ></SourceIcon>
             <h2 style={{ float: 'left', marginLeft: 10 }}>
               {t('content.irs.dialog.submodelPayload.title')}
             </h2>
@@ -150,7 +173,11 @@ export const SubmodelTobmstones = ({ subModel }: props) => {
                 <DetailGrid
                   topic={t('content.irs.dialog.submodelPayload.payload')}
                   content={
-                    <SyntaxHighlighter key={`payload_${payload.identification}_${payload.aspectType}_syntax`} style={googlecode} language="json" >
+                    <SyntaxHighlighter
+                      key={`payload_${payload.identification}_${payload.aspectType}_syntax`}
+                      style={googlecode}
+                      language="json"
+                    >
                       {JSON.stringify(JSON.parse(payload.payload), null, 2)}
                     </SyntaxHighlighter>
                   }

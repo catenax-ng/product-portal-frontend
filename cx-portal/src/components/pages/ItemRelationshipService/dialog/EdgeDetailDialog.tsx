@@ -36,7 +36,7 @@ interface EdgeDialogProps {
 export const EdgeDetailDialog = ({ show, onClose }: EdgeDialogProps) => {
   const { t } = useTranslation()
   const edgeDialoge = useSelector(edgeDialogSelector)
-  
+
   return (
     <Dialog open={show}>
       <DialogHeader
@@ -45,7 +45,8 @@ export const EdgeDetailDialog = ({ show, onClose }: EdgeDialogProps) => {
         onCloseWithIcon={onClose}
       />
       <DialogContent>
-        <EdgeDetails edge={edgeDialoge.edgeId} /></DialogContent>
+        <EdgeDetails edge={edgeDialoge.edgeId} />
+      </DialogContent>
     </Dialog>
   )
 }

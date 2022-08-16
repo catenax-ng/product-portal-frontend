@@ -33,16 +33,18 @@ export const EdgeDetails = ({ edge }: { edge: any }) => {
   const { t } = useTranslation()
 
   const edgeInfo = useSelector((state) => {
-      return getEdgebyEdgeIdSelector(state,edge)
+    return getEdgebyEdgeIdSelector(state, edge)
   })
-
 
   return (
     <>
-      <SyntaxHighlighter key={`payload_${edge.id}_2`} style={googlecode} language="json" >
+      <SyntaxHighlighter
+        key={`payload_${edge.id}_2`}
+        style={googlecode}
+        language="json"
+      >
         {JSON.stringify(edgeInfo, null, 2)}
       </SyntaxHighlighter>
     </>
-
   )
 }

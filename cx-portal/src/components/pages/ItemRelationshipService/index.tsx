@@ -1,5 +1,5 @@
 /********************************************************************************
-* Copyright (c) 2021,2022 BMW Group AG
+ * Copyright (c) 2021,2022 BMW Group AG
  * Copyright (c) 2021,2022 Contributors to the CatenaX (ng) GitHub Organisation.
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -58,18 +58,17 @@ import { EdgeDetailDialog } from './dialog/EdgeDetailDialog'
 // 8. Add reducer to store   isr: jobSlice.reducer,
 // 9. Change return 'https://centralidp.demo.catena-x.net/auth' in EnvironmentService for Authentication with the correct Keycloak
 // 10. Start a Job on dev
-    // {
-    //   "aspects": [
-    //       "AssemblyPartRelationship",
-    //       "SerialPartTypization"
-    //   ],
-    //   "bomlLifecycle":"asBuilt",
-    //   "collectAspects": true,
-    //   "direction":"downward",
-    //   "depth":10,
-    //   "globalAssetId": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"
-    // }
-
+// {
+//   "aspects": [
+//       "AssemblyPartRelationship",
+//       "SerialPartTypization"
+//   ],
+//   "bomlLifecycle":"asBuilt",
+//   "collectAspects": true,
+//   "direction":"downward",
+//   "depth":10,
+//   "globalAssetId": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"
+// }
 
 // LOP
 // ✅ Graph chart, when nodes are missing
@@ -138,7 +137,6 @@ export default function ItemRelationshipService() {
     dispatch(jobSlice.actions.closeEdgeDialog())
   }
 
-
   const visualize = (id: string) => {
     const encodedId = encodeURIComponent(id)
     dispatch(fetchJobById(encodedId))
@@ -196,14 +194,14 @@ export default function ItemRelationshipService() {
               edges={edges}
               defaultPosition={CanvasPosition.TOP}
               node={
-                <Node 
-                removable={false} 
-                style={nodeStyle}
-                onClick={(event: any, node) => {
-                  event.preventDefault()
-                  console.log('CLICK', node)
-                  dispatch(jobSlice.actions.openNodeDialog(node.id))
-                }}
+                <Node
+                  removable={false}
+                  style={nodeStyle}
+                  onClick={(event: any, node) => {
+                    event.preventDefault()
+                    console.log('CLICK', node)
+                    dispatch(jobSlice.actions.openNodeDialog(node.id))
+                  }}
                 >
                   {(nodeChild) => (
                     <foreignObject
@@ -246,7 +244,7 @@ export default function ItemRelationshipService() {
       <EdgeDetailDialog
         show={showEdgeDialog}
         onClose={() => closeEdgeDialog()}
-        ></EdgeDetailDialog>
+      ></EdgeDetailDialog>
     </main>
   )
 }
