@@ -1,10 +1,7 @@
-import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Typography, StaticTable, TableType } from 'cx-portal-shared-components'
-import { fetch } from 'features/apps/details/actions'
-import { itemSelector } from 'features/apps/details/slice'
+import { useFetchAppDetailsQuery } from 'features/apps/apiSlice'
 import './AppDetailProvider.scss'
 
 export default function AppDetailProvider() {
@@ -13,20 +10,15 @@ export default function AppDetailProvider() {
   })
 
   const { appId } = useParams()
-
-  const item = useSelector(itemSelector)
-
-  useEffect(() => {
-    fetch(appId!)
-  }, [appId])
+  const { data } = useFetchAppDetailsQuery(appId!)
 
   const tableData: TableType = {
     head: [t('appProvider'), t('website'), t('email'), t('phone')],
     body: [
-      [item.providerUri ?? 'ERROR'],
-      [item.provider],
-      [item.contactEmail],
-      [item.contactNumber],
+      [(data && data.providerUri) ?? 'ERROR'],
+      [(data && data.provider) ?? ''],
+      [(data && data.contactEmail) ?? ''],
+      [(data && data.contactNumber) ?? ''],
     ],
   }
 
