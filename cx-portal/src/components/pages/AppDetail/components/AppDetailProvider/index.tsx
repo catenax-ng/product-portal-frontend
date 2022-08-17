@@ -10,7 +10,7 @@ export default function AppDetailProvider() {
   })
 
   const { appId } = useParams()
-  const { data } = useFetchAppDetailsQuery(appId!)
+  const { data } = useFetchAppDetailsQuery(appId ?? '')
 
   const tableData: TableType = {
     head: [t('appProvider'), t('website'), t('email'), t('phone')],
