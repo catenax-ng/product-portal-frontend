@@ -15,7 +15,6 @@ export default function AppDetailProvider() {
   const { appId } = useParams()
 
   const item = useSelector(itemSelector)
-  console.log('item', item)
 
   useEffect(() => {
     fetch(appId!)
