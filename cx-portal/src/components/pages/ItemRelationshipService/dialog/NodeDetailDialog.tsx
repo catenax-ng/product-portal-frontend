@@ -51,9 +51,9 @@ export const NodeDetailDialog = ({ show, onClose }: NodeDialogProps) => {
         closeWithIcon
         onCloseWithIcon={onClose}
       />
-      <DialogContent 
-        key={uniqueId()}
-      >{twin && <NodeDetailsTwo twin={twin} />}</DialogContent>
+      <DialogContent key={uniqueId()}>
+        {twin && <NodeDetailsTwo twin={twin} />}
+      </DialogContent>
     </Dialog>
   )
 }

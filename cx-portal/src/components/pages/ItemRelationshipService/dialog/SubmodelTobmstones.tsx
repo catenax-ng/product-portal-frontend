@@ -166,9 +166,7 @@ export const SubmodelTobmstones = ({ subModel }: props) => {
           {submodelPayload.map((payload) => {
             // console.log(payload.payload)
             return (
-              <Box
-                key={`${uniqueId(payload.identification)}`}
-              >
+              <Box key={`${uniqueId(payload.identification)}`}>
                 <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
 
                 <DetailGrid

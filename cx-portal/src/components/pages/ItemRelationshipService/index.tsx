@@ -23,7 +23,7 @@ import './irs.scss'
 import { Box, Divider } from '@mui/material'
 import { DetailGrid } from './helper/DetailGrid'
 import dayjs from 'dayjs'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchJobById, fetchJobs, postJob } from 'features/irs/actions'
 import { Canvas, CanvasPosition, Node, Edge } from 'reaflow'
@@ -51,6 +51,9 @@ import { FullScreen, useFullScreenHandle } from './helper/FullScreenHandler'
 import { useTheme } from '@mui/material'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 import uniqueId from 'lodash/uniqueId'
+import { IRSJobAddForm } from './form/IRSJobAddForm'
+import { styled } from '@mui/material/styles';
+import Switch, { SwitchProps } from '@mui/material/Switch';
 
 // What to do for integration in this project
 // 1. install dependencies
@@ -109,18 +112,18 @@ import uniqueId from 'lodash/uniqueId'
 // ✅ Change functionality to show Items, where Registry Call has not been done yet (Links which have been filtered out!)
 // ✅ Zoom in for the Visualization  ==> Canvas resizing on Window Changes; Add Correct Buttons for Fullscreen
 // ✅ Fullscreen Mode conflicts Dialog ==> Use Fullscreen Code to write own functions to handle the Resizing of the component
+// ✅ Automatic Refresh Toggle
+// ✅  Add Area to start a Job; ASK Martin for correct FORM Management
 // MAYBE: change visualization to P5.js or D3 https://codesandbox.io/examples/package/react-d3-tree
 // WONTDO: Refactor Visualization on scroll ==> not possible with curren visualization component
 // III TODO: Decople FE from Portal
 // III TODO: Refactor to new API Logic
-// III TODO: Automatic Refresh Toggle
-// II TODO: Choose button environment int dev
-// I TODO: Style and cleanup Edge Details: Slice and Types
-// I TODO: Add Area to start a Job; ASK Martin for correct FORM Management
+// II TODO: DD Functionality to API.tsx Choose button environment int dev A
+// II TODO: Clean up Index.tsx file and decupple some parts (Error Message)
+// I TODO: Add Form Feedback
+// I TODO: Ask Martin about Data Refresh animation?!
+// I TODO: Rename SubmodelTobmstones.tsx
 // I TODO: Result map error when reloading the page while selection on Table exists
-// I TODO: Clean up Index.tsx file and decupple some parts (Error Message)
-// I TODO: Rename SubmodelTobmstones.tsx 
-
 
 export default function ItemRelationshipService() {
   const { t } = useTranslation()
@@ -152,6 +155,21 @@ export default function ItemRelationshipService() {
   //     }, 30*1000)
   //   }
   // })
+
+  const [refreshIntervalId, setRefreshIntervalId] = useState<number|any>()
+
+  const autoRefresh = (isAutoRefresh:boolean) =>{
+        if(isAutoRefresh){
+          const refreshInterval = setInterval(() =>{
+            console.log('timer', refreshInterval)
+            // Update jobs
+            dispatch(fetchJobs())
+          }, 5*1000)
+          setRefreshIntervalId(refreshInterval)
+        } else {
+          clearInterval(refreshIntervalId)
+        }
+      }
 
   const closeNodeDialog = () => {
     dispatch(jobSlice.actions.closeNodeDialog())
@@ -213,58 +231,22 @@ export default function ItemRelationshipService() {
 
   return (
     <main className="main">
-      <section>
-        <TextField
-          // error={!!errors[name]}
-          fullWidth
-          // helperText={
-          //   !!errors[name] ? helperText : `${value.length}/${limit}`
-          // }
-          // inputProps={{
-          //   maxLength: limit,
-          // }}
-          multiline
-          // onChange={(event) => {
-          //   trigger(name)
-          //   onChange(event)
-          // }}
-          placeholder={JSON.stringify(testJob, null, 2)}
-          value={JSON.stringify(testJob, null, 2)}
-          variant="filled"
-          FormHelperTextProps={
-            {
-              // sx: { marginLeft: !!errors[name] ? '' : 'auto' },
-            }
-          }
-          InputProps={
-            {
-              // endAdornment: !!errors[name] && (
-              //   <InputAdornment sx={{ color: 'danger.danger' }} position="end">
-              //     <ErrorOutlineOutlinedIcon />
-              //   </InputAdornment>
-              // ),
-            }
-          }
-        />
 
-        <Button
-          key={'send_irs_api_request'}
-          sx={{ width: '100%' }}
-          size="small"
-          color={'secondary'}
-          variant="contained"
-          onClick={(event: any) => {
-            event.preventDefault()
-            console.log('CLICK', testJob)
-            dispatch(postJob(testJob))
-            dispatch(fetchJobs())
-          }}
-        >
-          Send Job Request
-        </Button>
-      </section>
+
+
+      <IRSJobAddForm></IRSJobAddForm>
+  
 
       <section style={{ paddingBottom: 20 }}>
+
+
+        <IOSSwitch sx={{ m: 1 }} 
+          onChange={ (event) => {
+            // console.log(event.target.checked)
+            autoRefresh(event.target.checked)
+          }}
+          />
+          {t('content.irs.jobsTable.toggleAutoRefresh')}
         <Table
           // title="IRS Jobs"
           title={t('content.irs.jobsTable.title')}
@@ -282,6 +264,7 @@ export default function ItemRelationshipService() {
           }}
         />
       </section>
+
       {job && <IrsJobDetails job={job?.job}></IrsJobDetails>}
 
       {job && nodes.length > 0 && edges.length >= 0 && (
@@ -357,59 +340,64 @@ export default function ItemRelationshipService() {
         </section>
       )}
 
-      {job && nodes.length === 0 && edges.length === 0 && job.tombstones.length > 0 && (
-        <section>
-
-          <Box className="irs-tombstones-details">
-            <Box className="irs-tombstones-details-header">
-              <Box
-                style={{
-                  display: 'inline-block',
-                  color: theme.palette.error.light,
-                  marginTop: 20,
-                }}
-              >
-                <ErrorOutlineIcon
+      {job &&
+        nodes.length === 0 &&
+        edges.length === 0 &&
+        job.tombstones.length > 0 && (
+          <section>
+            <Box className="irs-tombstones-details">
+              <Box className="irs-tombstones-details-header">
+                <Box
                   style={{
-                    fontSize: 50,
-                    float: 'left',
-                    verticalAlign: 'middle',
-                    marginTop: 10,
+                    display: 'inline-block',
+                    color: theme.palette.error.light,
+                    marginTop: 20,
                   }}
-                ></ErrorOutlineIcon>
-                <h2 style={{ float: 'left', marginLeft: 10 }}>
-                  {t('content.irs.dialog.submodelTombstones.title')}
-                </h2>
-              </Box>
-
-            </Box>
-            <Box className="irs-tombstones-details-content">
-
-
-            {job.tombstones.map((stone) => {
-              return (
-                <Box key={`${uniqueId(stone.catenaXId)}`}>
-                  <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
-                  <DetailGrid
-                    topic={t('content.irs.dialog.submodelTombstones.lastAttempt')+':'}
-                    content={dayjs(stone.processingError.lastAttempt).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                      )}
-                      />
-                  <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
-                  <DetailGrid
-                    topic={t('content.irs.dialog.submodelTombstones.errorDetail')+':'}
-                    content={
-                      stone.processingError.errorDetail
-                    }
-                    />
+                >
+                  <ErrorOutlineIcon
+                    style={{
+                      fontSize: 50,
+                      float: 'left',
+                      verticalAlign: 'middle',
+                      marginTop: 10,
+                    }}
+                  ></ErrorOutlineIcon>
+                  <h2 style={{ float: 'left', marginLeft: 10 }}>
+                    {t('content.irs.dialog.submodelTombstones.title')}
+                  </h2>
                 </Box>
-              )
-            })}
+              </Box>
+              <Box className="irs-tombstones-details-content">
+                {job.tombstones.map((stone) => {
+                  return (
+                    <Box key={`${uniqueId(stone.catenaXId)}`}>
+                      <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
+                      <DetailGrid
+                        topic={
+                          t(
+                            'content.irs.dialog.submodelTombstones.lastAttempt'
+                          ) + ':'
+                        }
+                        content={dayjs(
+                          stone.processingError.lastAttempt
+                        ).format('YYYY-MM-DD HH:mm:ss')}
+                      />
+                      <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
+                      <DetailGrid
+                        topic={
+                          t(
+                            'content.irs.dialog.submodelTombstones.errorDetail'
+                          ) + ':'
+                        }
+                        content={stone.processingError.errorDetail}
+                      />
+                    </Box>
+                  )
+                })}
+              </Box>
             </Box>
-          </Box>
-        </section>
-      )}
+          </section>
+        )}
 
       <NodeDetailDialog
         show={showNodeDialog}
@@ -422,3 +410,55 @@ export default function ItemRelationshipService() {
     </main>
   )
 }
+
+
+const IOSSwitch = styled((props: SwitchProps) => (
+  <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
+))(({ theme }) => ({
+  width: 42,
+  height: 26,
+  padding: 0,
+  '& .MuiSwitch-switchBase': {
+    padding: 0,
+    margin: 2,
+    transitionDuration: '300ms',
+    '&.Mui-checked': {
+      transform: 'translateX(16px)',
+      color: '#fff',
+      '& + .MuiSwitch-track': {
+        backgroundColor: theme.palette.mode === 'dark' ? '#2ECA45' : '#65C466',
+        opacity: 1,
+        border: 0,
+      },
+      '&.Mui-disabled + .MuiSwitch-track': {
+        opacity: 0.5,
+      },
+    },
+    '&.Mui-focusVisible .MuiSwitch-thumb': {
+      color: '#33cf4d',
+      border: '6px solid #fff',
+    },
+    '&.Mui-disabled .MuiSwitch-thumb': {
+      color:
+        theme.palette.mode === 'light'
+          ? theme.palette.grey[100]
+          : theme.palette.grey[600],
+    },
+    '&.Mui-disabled + .MuiSwitch-track': {
+      opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
+    },
+  },
+  '& .MuiSwitch-thumb': {
+    boxSizing: 'border-box',
+    width: 22,
+    height: 22,
+  },
+  '& .MuiSwitch-track': {
+    borderRadius: 26 / 2,
+    backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
+    opacity: 1,
+    transition: theme.transitions.create(['background-color'], {
+      duration: 500,
+    }),
+  },
+}));

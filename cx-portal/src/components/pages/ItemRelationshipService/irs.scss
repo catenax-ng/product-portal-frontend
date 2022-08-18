@@ -51,7 +51,8 @@
 */
 .irs-job-details,
 .irs-tombstones-details,
-.irs-visualization {
+.irs-visualization,
+.irs-job-form {
   align-items: center;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -68,7 +69,8 @@
 
 .irs-job-details-header,
 .irs-tombstones-details-header,
-.irs-visualization-header {
+.irs-visualization-header,
+.irs-job-form-header {
   background-color: #f9f9f9;
   min-height: 100px;
   padding: 8px 32px;

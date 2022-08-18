@@ -237,7 +237,8 @@
         "title": "Item Relationship Service Job Store",
         "jobID": "Id",
         "status": "Status",
-        "visualize": "Visualisierung"
+        "visualize": "Visualisierung",
+        "toggleAutoRefresh":"Auto-Update alle 5 Sekunden"
       },
       "jobDetails": {
         "title": "Item Relationship Service Job Details",
@@ -277,6 +278,17 @@
           },
           "quantityNumber": "Qantität"
         }
+      },
+      "form": {
+        "title": "Erstelle eine neue Data Chain",
+        "requestBodyValues":{
+          "label":"JSON Body Data Chain Parameter",
+          "helperText":"Eingabe enspricht nicht einem korrekten JSON-Format"
+        },
+        "environment": {
+          "label":"Wähle eine Umgebung"
+        },
+        "sendButton": "Build Data Chain"
       }
     },
     "datamanagement": {
