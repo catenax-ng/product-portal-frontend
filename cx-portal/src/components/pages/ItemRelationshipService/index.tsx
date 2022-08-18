@@ -42,6 +42,9 @@ import { Button } from 'cx-portal-shared-components'
 import TextField from '@mui/material/TextField'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 
+import { IconButton } from 'cx-portal-shared-components'
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 // What to do for integration in this project
 // 1. install dependencies
 //      cd cx-portal
@@ -106,6 +109,8 @@ import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 // I TODO: Style and cleanup Edge Details: Slice and Types
 // II TODO: Zoom in for the Visualization  ==> Canvas resizing on Window Changes; Add Correct Buttons for Fullscreen
 // I TODO: Add Area to start a Job; ASK Martin for correct FORM Management
+// I TODO: Result map error when reloading the page while selection on Table exists
+
 
 export default function ItemRelationshipService() {
   const { t } = useTranslation()
@@ -176,6 +181,14 @@ export default function ItemRelationshipService() {
   }
 
   const handle = useFullScreenHandle()
+
+  const canvasHeight = () => {
+    if (handle.active) {
+      return window.innerHeight
+    } else {
+      return 800
+    }
+  }
 
   return (
     <main className="main">
@@ -252,17 +265,41 @@ export default function ItemRelationshipService() {
       {job && nodes.length > 0 && edges.length >= 0 && (
         <section>
           <Box className="irs-visualization" sx={{ textAlign: 'center' }}>
-            <button onClick={handle.enter}>Enter fullscreen</button>
 
             <FullScreen handle={handle}>
-              Any fullscreen content here
               <Box className="irs-visualization-header">
                 <h5>{t('content.irs.visualization.title')}</h5>
+
+                {handle.active && 
+                <IconButton
+                color="secondary"
+                size="medium"
+                style={{ alignSelf: 'right' }}
+                onClick={handle.exit}
+                >
+                <FullscreenExitIcon/>
+              </IconButton>
+                }
+
+                { !handle.active && 
+                  <IconButton
+                  color="secondary"
+                  size="medium"
+                  style={{ alignSelf: 'right' }}
+                  onClick={handle.enter}
+                  >
+                  <FullscreenIcon/>
+                </IconButton>
+                  
+                  }
+                
+                
+
               </Box>
               <Canvas
                 className="canvas"
                 zoom={0.4}
-                height={800}
+                height={canvasHeight()}
                 nodes={nodes}
                 edges={edges}
                 defaultPosition={CanvasPosition.TOP}
