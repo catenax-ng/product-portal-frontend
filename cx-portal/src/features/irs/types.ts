@@ -73,7 +73,7 @@ export interface Relationship {
 interface childItem {
   assembledOn: string
   childCatenaXId: string
-  lastModified: string
+  lastModifiedOn: string
   lifecycleContext: string
   quantity: quantity
 }
@@ -168,4 +168,13 @@ interface Endpoints {
 
 interface SemanticId {
   value: string[]
+}
+
+export interface IRSRequestBody {
+  aspects: string[],
+  bomLifecycle: string,
+  direction?: string
+  collectAspects?: boolean,
+  depth?: number,
+  globalAssetId: string
 }

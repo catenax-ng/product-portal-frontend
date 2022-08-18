@@ -19,6 +19,7 @@
  ********************************************************************************/
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { Api } from './api'
+import { IRSRequestBody } from './types'
 
 const fetchJobById = createAsyncThunk('fetch Job by id', async (id: string) => {
   try {
@@ -38,4 +39,13 @@ const fetchJobs = createAsyncThunk('fetch Jobs', async () => {
   }
 })
 
-export { fetchJobById, fetchJobs }
+const postJob = createAsyncThunk('post Job',async (reqBody:IRSRequestBody) => {
+  try{
+    return await Api.getInstance().setJob(reqBody)
+  } catch (error: unknown) {
+    console.error('api call error:', error)
+    throw Error('Get jobs api call error')
+  }
+})
+
+export { fetchJobById, fetchJobs, postJob }

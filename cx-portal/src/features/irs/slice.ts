@@ -170,11 +170,13 @@ export const getEdgebyEdgeIdSelector = createSelector(
   (edges, edge) => {
     if (edges) {
       // return edges
-      console.log('edge:', edge)
+      // console.log('edge:', edge)
       return edges.filter(
         (x) =>
           x.catenaXId === edge.from && x.childItem.childCatenaXId === edge.to
       )
+    } else {
+      return []
     }
   }
 )

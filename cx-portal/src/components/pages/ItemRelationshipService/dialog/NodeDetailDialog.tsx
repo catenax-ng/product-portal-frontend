@@ -26,7 +26,6 @@ import {
 import { useSelector } from 'react-redux'
 import { nodeDialogSelector, getShells } from 'features/irs/slice'
 import { ShellDescriptor } from 'features/digitalTwins/types'
-import { NodeDetails } from './NodeDetails'
 import { useTranslation } from 'react-i18next'
 import { NodeDetailsTwo } from './NodeDetailsTwo'
 

@@ -66,7 +66,7 @@ export const SubmodelDetailCard = ({ submodel, aasId }: props) => {
           key={uniqueId(submodel.idShort)}
           sx={{ width: '100%' }}
           size="small"
-          color={tombstones.length < 1 ? 'success' : 'secondary'}
+          color={tombstones.length < 1 ? 'success' : 'error'}
           variant="contained"
           onClick={(event: any) => {
             event.preventDefault()

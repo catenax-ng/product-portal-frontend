@@ -19,7 +19,10 @@
  ********************************************************************************/
 import { HttpClient } from 'utils/HttpClient'
 import { getHeaders } from 'services/RequestService'
-import { irsjobs, irsjob } from './types'
+import { irsjobs, irsjob, IRSRequestBody } from './types'
+
+
+
 
 export class Api extends HttpClient {
   private static classInstance?: Api
@@ -42,4 +45,6 @@ export class Api extends HttpClient {
     )
 
   public getJobs = () => this.instance.get<irsjobs>(`jobs`, getHeaders())
+
+  public setJob = (body:IRSRequestBody) => this.instance.post<irsjob>(`jobs`,body, getHeaders())
 }

@@ -25,7 +25,6 @@ import {
 } from 'cx-portal-shared-components'
 import { useSelector } from 'react-redux'
 import { edgeDialogSelector } from 'features/irs/slice'
-import { useTranslation } from 'react-i18next'
 import { EdgeDetails } from './EdgeDetails'
 
 interface EdgeDialogProps {
@@ -34,13 +33,12 @@ interface EdgeDialogProps {
 }
 
 export const EdgeDetailDialog = ({ show, onClose }: EdgeDialogProps) => {
-  const { t } = useTranslation()
   const edgeDialoge = useSelector(edgeDialogSelector)
 
   return (
     <Dialog open={show}>
       <DialogHeader
-        title={'Edge Details'}
+        title={''}
         closeWithIcon
         onCloseWithIcon={onClose}
       />

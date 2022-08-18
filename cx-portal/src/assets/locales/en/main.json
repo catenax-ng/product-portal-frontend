@@ -241,15 +241,15 @@
       },
       "jobDetails": {
         "title": "Item Relationship Service Job Details",
-        "globalAssetId": "Global Asset ID:",
-        "exception": "Exception:",
-        "createdOn": "Job created on:",
-        "startedOn": "Job started on:",
-        "lastModifiedOn": "Job last modified on:",
-        "jobCompleted": "Job completed on:",
-        "owner": "Job owner:",
-        "summary": "Job summary:",
-        "jobParameter": "Job parameter:"
+        "globalAssetId": "Global Asset ID",
+        "exception": "Exception",
+        "createdOn": "Job created on",
+        "startedOn": "Job started on",
+        "lastModifiedOn": "Job last modified on",
+        "jobCompleted": "Job completed on",
+        "owner": "Job owner",
+        "summary": "Job summary",
+        "jobParameter": "Job parameter"
       },
       "visualization": {
         "title": "Visualization of IRS Result"
@@ -258,12 +258,24 @@
         "title": "Node Details",
         "submodelTombstones": {
           "title": "Submodel Tombstones",
-          "lastAttempt": "Timestamp:",
-          "errorDetail": "Error Details:"
+          "lastAttempt": "Timestamp",
+          "errorDetail": "Error Details"
         },
         "submodelPayload": {
           "title": "Submodel Payload",
-          "payload": "Payload:"
+          "payload": "Payload"
+        },
+        "edge": {
+          "catenaXId": "Catena-X ID",
+          "childCatenaXId": "Child Catena-X ID",
+          "assembledOn": "Assembled on",
+          "lastModifiedOn": "Last modified on",
+          "lifecycleContext": "Lifecycle context",
+          "measurementUnit": { 
+            "datatypeURI": "URI data type",
+            "lexicalValue": "Lexical value"
+          },
+          "quantityNumber": "Quantity"
         }
       }
     },

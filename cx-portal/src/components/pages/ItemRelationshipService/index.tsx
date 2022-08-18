@@ -23,7 +23,7 @@ import './irs.scss'
 import { Box } from '@mui/material'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchJobById, fetchJobs } from 'features/irs/actions'
+import { fetchJobById, fetchJobs, postJob } from 'features/irs/actions'
 import { Canvas, CanvasPosition, Node, Edge } from 'reaflow'
 import { IrsJobsTableColumns } from './IrsJobsTableColumns'
 import jobSlice, {
@@ -36,9 +36,13 @@ import jobSlice, {
 import { NodeTemplate } from './visualization/nodeTemplate'
 import { IrsJobDetails } from './irsJobDetails'
 import { NodeDetailDialog } from './dialog/NodeDetailDialog'
-import { store } from '../../../features/store'
 import { useTranslation } from 'react-i18next'
 import { EdgeDetailDialog } from './dialog/EdgeDetailDialog'
+import { Button } from 'cx-portal-shared-components'
+import TextField from '@mui/material/TextField'
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
+
+
 
 // What to do for integration in this project
 // 1. install dependencies
@@ -94,15 +98,16 @@ import { EdgeDetailDialog } from './dialog/EdgeDetailDialog'
 // ✅  Style Dialog NodeDetailsTwo
 // ✅ Add Click event on Node
 // ✅ Add additional Information for Edge
+// ✅ Change functionality to show Items, where Registry Call has not been done yet (Links which have been filtered out!)
 // MAYBE: change visualization to D3 https://codesandbox.io/examples/package/react-d3-tree
-// TODO: Refactor to new API Logic
-// TODO: Automatic Refresh Toggle
-// TODO: Change functionality to show Items, where Registry Call has not been done yet (Links which have been filtered out!)
-// TODO: Choose button environment int dev
-// TODO: Add Area to start a Job
-// TODO: Decople FE from Portal
-// TODO: Refactor Visualization on scroll
-// TODO: Style and cleanup Edge Details: CSS, Slice, Types
+// III TODO: Decople FE from Portal
+// III TODO: Refactor to new API Logic
+// III TODO: Automatic Refresh Toggle
+// II TODO: Choose button environment int dev
+// I TODO: Refactor Visualization on scroll
+// I TODO: Style and cleanup Edge Details: Slice and Types
+// II TODO: Zoom in for the Visualization  ==> Canvas resizing on Window Changes; Add Correct Buttons for Fullscreen
+// I TODO: Add Area to start a Job; ASK Martin for correct FORM Management
 
 export default function ItemRelationshipService() {
   const { t } = useTranslation()
@@ -113,7 +118,11 @@ export default function ItemRelationshipService() {
   const nodes = useSelector(nodeSelector)
   const edges = useSelector(edgeSelector)
 
+  // console.log('job: ', job)
+  // console.log('node: ', nodes)
+  // console.log('edges: ', edges)
   const dispatch = useDispatch()
+
   useEffect(() => {
     dispatch(fetchJobs())
   }, [dispatch])
@@ -159,8 +168,72 @@ export default function ItemRelationshipService() {
     strokeDasharray: 5,
   }
 
+  const testJob = {
+    "aspects": [
+      "AssemblyPartRelationship",
+      "SerialPartTypization"
+    ],
+    "bomLifecycle": "asBuilt",
+    "collectAspects": true,
+    "direction": "downward",
+    "depth": 10,
+    "globalAssetId": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"
+  }
+
+  const handle = useFullScreenHandle()
+  
+  
   return (
     <main className="main">
+
+      <section>
+        <TextField
+          // error={!!errors[name]}
+          fullWidth
+          // helperText={
+          //   !!errors[name] ? helperText : `${value.length}/${limit}`
+          // }
+          // inputProps={{
+          //   maxLength: limit,
+          // }}
+          multiline
+          // onChange={(event) => {
+          //   trigger(name)
+          //   onChange(event)
+          // }}
+          placeholder={JSON.stringify(testJob, null, 2)}
+          value={JSON.stringify(testJob, null, 2)}
+          variant="filled"
+          FormHelperTextProps={{
+            // sx: { marginLeft: !!errors[name] ? '' : 'auto' },
+          }}
+          InputProps={{
+            // endAdornment: !!errors[name] && (
+            //   <InputAdornment sx={{ color: 'danger.danger' }} position="end">
+            //     <ErrorOutlineOutlinedIcon />
+            //   </InputAdornment>
+            // ),
+          }}
+        />
+
+        <Button
+          key={'send_irs_api_request'}
+          sx={{ width: '100%' }}
+          size="small"
+          color={'secondary'}
+          variant="contained"
+          onClick={(event: any) => {
+            event.preventDefault()
+            console.log('CLICK', testJob)
+            dispatch(postJob(testJob))
+            dispatch(fetchJobs())
+          }}
+        >
+          Send Job Request
+        </Button>
+      </section>
+
+
       <section style={{ paddingBottom: 20 }}>
         <Table
           // title="IRS Jobs"
@@ -180,12 +253,21 @@ export default function ItemRelationshipService() {
         />
       </section>
       {job && <IrsJobDetails job={job?.job}></IrsJobDetails>}
-      {job && nodes.length > 0 && edges.length > 0 && (
+      {job && nodes.length > 0 && edges.length >= 0 && (
         <section>
           <Box className="irs-visualization" sx={{ textAlign: 'center' }}>
+            
+            <button onClick={handle.enter}>
+              Enter fullscreen
+            </button>
+
+            <FullScreen handle={handle}>
+              Any fullscreen content here
             <Box className="irs-visualization-header">
               <h5>{t('content.irs.visualization.title')}</h5>
             </Box>
+
+
             <Canvas
               className="canvas"
               zoom={0.4}
@@ -195,25 +277,25 @@ export default function ItemRelationshipService() {
               defaultPosition={CanvasPosition.TOP}
               node={
                 <Node
-                  removable={false}
-                  style={nodeStyle}
-                  onClick={(event: any, node) => {
-                    event.preventDefault()
-                    console.log('CLICK', node)
-                    dispatch(jobSlice.actions.openNodeDialog(node.id))
-                  }}
+                removable={false}
+                style={nodeStyle}
+                onClick={(event: any, node) => {
+                  event.preventDefault()
+                  console.log('CLICK', node)
+                  dispatch(jobSlice.actions.openNodeDialog(node.id))
+                }}
                 >
                   {(nodeChild) => (
                     <foreignObject
-                      height={290}
-                      width={290}
-                      x={0}
-                      y={0}
-                      // onClick={(event, node) => {
+                    height={290}
+                    width={290}
+                    x={0}
+                    y={0}
+                    // onClick={(event, node) => {
                       //     console.log('Selecting Node', event, node)
                       //     if (onClick) onClick(event, node)
                       // }}
-                    >
+                      >
                       <Box>
                         <NodeTemplate shell={nodeChild.node}></NodeTemplate>
                       </Box>
@@ -223,16 +305,17 @@ export default function ItemRelationshipService() {
               }
               edge={
                 <Edge
-                  removable={false}
-                  className="edge"
-                  style={edgeStyle}
-                  onClick={(event, edge) => {
-                    console.log('Selecting Edge', event, edge)
-                    dispatch(jobSlice.actions.openEdgeDialog(edge))
-                  }}
+                removable={false}
+                className="edge"
+                style={edgeStyle}
+                onClick={(event, edge) => {
+                  // console.log('Selecting Edge', event, edge)
+                  dispatch(jobSlice.actions.openEdgeDialog(edge))
+                }}
                 />
               }
-            />
+              />
+          </FullScreen>
           </Box>
         </section>
       )}

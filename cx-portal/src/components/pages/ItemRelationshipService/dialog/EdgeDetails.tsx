@@ -18,15 +18,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Typography, CustomAccordion } from 'cx-portal-shared-components'
-import { ShellDescriptor, SubmodelDescriptors } from 'features/irs/types'
 import { DetailGrid } from '../../../shared/basic/DetailGrid'
-import { Grid, Box, Divider, useTheme } from '@mui/material'
+import { Grid, Divider, useTheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import SyntaxHighlighter from 'react-syntax-highlighter'
-import { googlecode } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { useSelector } from 'react-redux'
 import { getEdgebyEdgeIdSelector } from 'features/irs/slice'
+import dayjs from 'dayjs'
+
 
 export const EdgeDetails = ({ edge }: { edge: any }) => {
   const theme = useTheme()
@@ -36,15 +34,80 @@ export const EdgeDetails = ({ edge }: { edge: any }) => {
     return getEdgebyEdgeIdSelector(state, edge)
   })
 
+  
+  const hasEdges = () => edgeInfo.length > 0
+
+
   return (
     <>
-      <SyntaxHighlighter
+      <Divider sx={{ mr: -2, ml: -2 }} />
+      <Grid
+        container
+        sx={{
+          width: `calc(100% + ${theme.spacing(4)})`,
+          m: `0 -${theme.spacing(2)}`,
+          p: 2,
+          typography: 'label3',
+          bgcolor: 'background.background09',
+        }}
+      >
+        <Grid item xs={12}>
+          Edge
+        </Grid>
+      </Grid>
+
+      {hasEdges() &&
+        <>
+          <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
+          <DetailGrid
+            topic={t('content.irs.dialog.edge.catenaXId')+":"}
+            content={edgeInfo[0].catenaXId}
+          />
+          <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
+          <DetailGrid
+            topic={t('content.irs.dialog.edge.childCatenaXId')+":"}
+            content={edgeInfo[0].childItem.childCatenaXId}
+          />
+          <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
+          <DetailGrid
+            topic={t('content.irs.dialog.edge.assembledOn')+":"}
+            content={dayjs(edgeInfo[0].childItem.assembledOn).format('YYYY-MM-DD HH:mm:ss')}
+          />
+          <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
+          <DetailGrid
+            topic={t('content.irs.dialog.edge.lastModifiedOn')+":"}
+            content={dayjs(edgeInfo[0].childItem.lastModifiedOn).format('YYYY-MM-DD HH:mm:ss')}
+          />
+          <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
+          <DetailGrid
+            topic={t('content.irs.dialog.edge.lifecycleContext')+":"}
+            content={edgeInfo[0].childItem.lifecycleContext}
+          />
+          <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
+          <DetailGrid
+            topic={t('content.irs.dialog.edge.measurementUnit.datatypeURI')+":"}
+            content={edgeInfo[0].childItem.quantity.measurementUnit.datatypeURI}
+          />
+          <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
+          <DetailGrid
+            topic={t('content.irs.dialog.edge.measurementUnit.lexicalValue')+":"}
+            content={edgeInfo[0].childItem.quantity.measurementUnit.lexicalValue}
+          />
+          <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
+          <DetailGrid
+            topic={t('content.irs.dialog.edge.quantityNumber')+":"}
+            content={edgeInfo[0].childItem.quantity.quantityNumber}
+          />
+        </> 
+      }
+
+      {/* <SyntaxHighlighter
         key={`payload_${edge.id}_2`}
         style={googlecode}
         language="json"
       >
         {JSON.stringify(edgeInfo, null, 2)}
-      </SyntaxHighlighter>
+      </SyntaxHighlighter> */}
     </>
   )
 }

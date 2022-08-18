@@ -34,6 +34,8 @@ import dayjs from 'dayjs'
 import { useTheme, Grid } from '@mui/material'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 import SourceIcon from '@mui/icons-material/Source'
+import uniqueId from 'lodash/uniqueId'
+
 
 interface props {
   subModel: SubmodelDescriptors
@@ -113,7 +115,7 @@ export const SubmodelTobmstones = ({ subModel }: props) => {
           {tombstones.map((stone) => {
             // console.log(JSON.parse('{'+stone.processingError.errorDetail.toString()+'}'))
             return (
-              <Box key={`stone_${stone.catenaXId}_${stone.endpointURL}`}>
+              <Box key={`${uniqueId(stone.catenaXId)}`}>
                 <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
                 <DetailGrid
                   topic={t('content.irs.dialog.submodelTombstones.lastAttempt')}

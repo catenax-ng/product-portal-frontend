@@ -241,15 +241,15 @@
       },
       "jobDetails": {
         "title": "Item Relationship Service Job Details",
-        "globalAssetId": "Global Asset ID:",
-        "exception": "Exception:",
-        "createdOn": "Job erstellt am:",
-        "startedOn": "Job gestartet am:",
-        "lastModifiedOn": "Job zuletzt gändert am:",
-        "jobCompleted": "Job beendet am:",
-        "owner": "Job Besitzer:",
-        "summary": "Job Zusammenfassung:",
-        "jobParameter": "Job Parameter:"
+        "globalAssetId": "Global Asset ID",
+        "exception": "Exception",
+        "createdOn": "Job erstellt am",
+        "startedOn": "Job gestartet am",
+        "lastModifiedOn": "Job zuletzt gändert am",
+        "jobCompleted": "Job beendet am",
+        "owner": "Job Besitzer",
+        "summary": "Job Zusammenfassung",
+        "jobParameter": "Job Parameter"
       },
       "visualization": {
         "title": "IRS-Ergebniss Visualisierung"
@@ -258,12 +258,24 @@
         "title": "Details",
         "submodelTombstones": {
           "title": "Sub-Modell Fehlermeldungen",
-          "lastAttempt": "Zeitstempel:",
-          "errorDetail": "Error-Details:"
+          "lastAttempt": "Zeitstempel",
+          "errorDetail": "Error-Details"
         },
         "submodelPayload": {
           "title": "Sub-Modell Payload",
-          "payload": "Payload:"
+          "payload": "Payload"
+        },
+        "edge": {
+          "catenaXId": "Catena-X ID",
+          "childCatenaXId": "Child Catena-X ID",
+          "assembledOn": "Verbauzeitpunkt",
+          "lastModifiedOn": "Zuletzt geändert",
+          "lifecycleContext": "Kontext zum Lebenszyklus",
+          "measurementUnit": { 
+            "datatypeURI": "URI Bezeichnung",
+            "lexicalValue": "Lexika-Bezeichnung"
+          },
+          "quantityNumber": "Qantität"
         }
       }
     },
