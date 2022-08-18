@@ -38,8 +38,10 @@ export const NodeDetailDialog = ({ show, onClose }: NodeDialogProps) => {
   const { t } = useTranslation()
   const nodeDialoge = useSelector(nodeDialogSelector)
   const shellList = useSelector(getShells)
+  // console.log('shellList', shellList)
+  // console.log('nodeDialoge', nodeDialoge)
   const twin = shellList.find(
-    (x: ShellDescriptor) => x.identification === nodeDialoge.nodeId
+    (x: ShellDescriptor) => x.globalAssetId.value[0] === nodeDialoge.nodeId
   )
   return (
     <Dialog open={show}>

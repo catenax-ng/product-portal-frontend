@@ -23,16 +23,15 @@
 */
 .canvas {
   background-color: white;
-  background-image: -webkit-repeating-radial-gradient(
-    top center,
-    rgba(0, 0, 0, 0.2),
-    rgba(0, 0, 0, 0.2) 1px,
-    transparent 0,
-    transparent 100%
-  );
+  background-image: -webkit-repeating-radial-gradient(top center,
+      rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0.2) 1px,
+      transparent 0,
+      transparent 100%);
   background-size: 20px 20px;
   height: 500px;
 }
+
 
 .node-header {
   font-size: x-small;
@@ -58,6 +57,7 @@
   border: 1px solid #dcdcdc;
   border-radius: 24px;
   overflow: hidden;
+
   &-content {
     width: auto;
     margin: 25px;

@@ -21,8 +21,8 @@ import { jobinfo } from 'features/irs/types'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { googlecode } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 
-import { DetailGrid } from './DetailGrid'
-import { Grid, Box, Divider, useTheme } from '@mui/material'
+import { DetailGrid } from './helper/DetailGrid'
+import { Grid, Box, Divider } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
 

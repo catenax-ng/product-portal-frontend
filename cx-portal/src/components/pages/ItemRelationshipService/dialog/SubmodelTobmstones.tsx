@@ -20,7 +20,7 @@
 
 import { Box, Divider } from '@mui/material'
 import { SubmodelDescriptors } from 'features/irs/types'
-import { DetailGrid } from '../DetailGrid'
+import { DetailGrid } from '../helper/DetailGrid'
 import { Tombstones } from 'features/irs/types'
 import { useSelector } from 'react-redux'
 import {
@@ -31,7 +31,7 @@ import SyntaxHighlighter from 'react-syntax-highlighter'
 import { googlecode } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
-import { useTheme, Grid } from '@mui/material'
+import { useTheme } from '@mui/material'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 import SourceIcon from '@mui/icons-material/Source'
 import uniqueId from 'lodash/uniqueId'

@@ -40,11 +40,12 @@ import { useTranslation } from 'react-i18next'
 import { EdgeDetailDialog } from './dialog/EdgeDetailDialog'
 import { Button } from 'cx-portal-shared-components'
 import TextField from '@mui/material/TextField'
-import { FullScreen, useFullScreenHandle } from 'react-full-screen'
-
 import { IconButton } from 'cx-portal-shared-components'
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import FullscreenIcon from '@mui/icons-material/Fullscreen'
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
+
+import { FullScreen, useFullScreenHandle } from './helper/FullScreenHandler'
+
 // What to do for integration in this project
 // 1. install dependencies
 //      cd cx-portal
@@ -100,16 +101,17 @@ import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 // ✅ Add Click event on Node
 // ✅ Add additional Information for Edge
 // ✅ Change functionality to show Items, where Registry Call has not been done yet (Links which have been filtered out!)
-// MAYBE: change visualization to D3 https://codesandbox.io/examples/package/react-d3-tree
+// ✅ Zoom in for the Visualization  ==> Canvas resizing on Window Changes; Add Correct Buttons for Fullscreen
+// MAYBE: change visualization to P5.js or D3 https://codesandbox.io/examples/package/react-d3-tree
+// WONTDO: Refactor Visualization on scroll ==> not possible with curren visualization component
 // III TODO: Decople FE from Portal
 // III TODO: Refactor to new API Logic
 // III TODO: Automatic Refresh Toggle
 // II TODO: Choose button environment int dev
-// I TODO: Refactor Visualization on scroll
 // I TODO: Style and cleanup Edge Details: Slice and Types
-// II TODO: Zoom in for the Visualization  ==> Canvas resizing on Window Changes; Add Correct Buttons for Fullscreen
 // I TODO: Add Area to start a Job; ASK Martin for correct FORM Management
 // I TODO: Result map error when reloading the page while selection on Table exists
+// I TODO: Fullscreen Mode conflicts Dialog ==> Use Fullscreen Code to write own functions to handle the Resizing of the component
 
 
 export default function ItemRelationshipService() {
@@ -177,8 +179,9 @@ export default function ItemRelationshipService() {
     collectAspects: true,
     direction: 'downward',
     depth: 10,
-    globalAssetId: 'urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb',
+    globalAssetId: 'urn:uuid:01410ecb-5894-46d1-bcce-4ae61a6939dc', // inttest
   }
+  // globalAssetId: 'urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb',
 
   const handle = useFullScreenHandle()
 
@@ -189,6 +192,14 @@ export default function ItemRelationshipService() {
       return 800
     }
   }
+
+  // const setCanvasPosition = () => {
+  //   if (handle.active) {
+  //     return CanvasPosition.TOP
+  //   } else {
+  //     return CanvasPosition.CENTER
+  //   }
+  // }
 
   return (
     <main className="main">
@@ -262,39 +273,35 @@ export default function ItemRelationshipService() {
         />
       </section>
       {job && <IrsJobDetails job={job?.job}></IrsJobDetails>}
+
       {job && nodes.length > 0 && edges.length >= 0 && (
         <section>
           <Box className="irs-visualization" sx={{ textAlign: 'center' }}>
-
             <FullScreen handle={handle}>
               <Box className="irs-visualization-header">
                 <h5>{t('content.irs.visualization.title')}</h5>
 
-                {handle.active && 
-                <IconButton
-                color="secondary"
-                size="medium"
-                style={{ alignSelf: 'right' }}
-                onClick={handle.exit}
-                >
-                <FullscreenExitIcon/>
-              </IconButton>
-                }
-
-                { !handle.active && 
+                {handle.active && (
                   <IconButton
-                  color="secondary"
-                  size="medium"
-                  style={{ alignSelf: 'right' }}
-                  onClick={handle.enter}
+                    color="secondary"
+                    size="medium"
+                    style={{ alignSelf: 'right' }}
+                    onClick={handle.exit}
                   >
-                  <FullscreenIcon/>
-                </IconButton>
-                  
-                  }
-                
-                
+                    <FullscreenExitIcon />
+                  </IconButton>
+                )}
 
+                {!handle.active && (
+                  <IconButton
+                    color="secondary"
+                    size="medium"
+                    style={{ alignSelf: 'right' }}
+                    onClick={handle.enter}
+                  >
+                    <FullscreenIcon />
+                  </IconButton>
+                )}
               </Box>
               <Canvas
                 className="canvas"
@@ -303,13 +310,14 @@ export default function ItemRelationshipService() {
                 nodes={nodes}
                 edges={edges}
                 defaultPosition={CanvasPosition.TOP}
+                // fit={true}
                 node={
                   <Node
                     removable={false}
                     style={nodeStyle}
                     onClick={(event: any, node) => {
                       event.preventDefault()
-                      console.log('CLICK', node)
+                      // console.log('CLICK', node)
                       dispatch(jobSlice.actions.openNodeDialog(node.id))
                     }}
                   >
@@ -319,10 +327,6 @@ export default function ItemRelationshipService() {
                         width={290}
                         x={0}
                         y={0}
-                        // onClick={(event, node) => {
-                        //     console.log('Selecting Node', event, node)
-                        //     if (onClick) onClick(event, node)
-                        // }}
                       >
                         <Box>
                           <NodeTemplate shell={nodeChild.node}></NodeTemplate>

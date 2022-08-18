@@ -26,6 +26,7 @@ export class Api extends HttpClient {
 
   public constructor() {
     super(`https://irs.dev.demo.catena-x.net/irs/`)
+    // super(`https://irs.int.demo.catena-x.net/irs/`)
   }
 
   public static getInstance() {
