@@ -50,6 +50,7 @@
   JOB Details and Visualization
 */
 .irs-job-details,
+.irs-tombstones-details,
 .irs-visualization {
   align-items: center;
   -webkit-align-items: center;
@@ -61,11 +62,12 @@
 
   &-content {
     width: auto;
-    margin: 25px;
+    margin: 0 25px ;
   }
 }
 
 .irs-job-details-header,
+.irs-tombstones-details-header,
 .irs-visualization-header {
   background-color: #f9f9f9;
   min-height: 100px;

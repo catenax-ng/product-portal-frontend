@@ -20,7 +20,9 @@
 
 import { Table } from 'cx-portal-shared-components'
 import './irs.scss'
-import { Box } from '@mui/material'
+import { Box, Divider } from '@mui/material'
+import { DetailGrid } from './helper/DetailGrid'
+import dayjs from 'dayjs'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchJobById, fetchJobs, postJob } from 'features/irs/actions'
@@ -45,6 +47,10 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen'
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
 
 import { FullScreen, useFullScreenHandle } from './helper/FullScreenHandler'
+
+import { useTheme } from '@mui/material'
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
+import uniqueId from 'lodash/uniqueId'
 
 // What to do for integration in this project
 // 1. install dependencies
@@ -102,6 +108,7 @@ import { FullScreen, useFullScreenHandle } from './helper/FullScreenHandler'
 // ✅ Add additional Information for Edge
 // ✅ Change functionality to show Items, where Registry Call has not been done yet (Links which have been filtered out!)
 // ✅ Zoom in for the Visualization  ==> Canvas resizing on Window Changes; Add Correct Buttons for Fullscreen
+// ✅ Fullscreen Mode conflicts Dialog ==> Use Fullscreen Code to write own functions to handle the Resizing of the component
 // MAYBE: change visualization to P5.js or D3 https://codesandbox.io/examples/package/react-d3-tree
 // WONTDO: Refactor Visualization on scroll ==> not possible with curren visualization component
 // III TODO: Decople FE from Portal
@@ -111,10 +118,11 @@ import { FullScreen, useFullScreenHandle } from './helper/FullScreenHandler'
 // I TODO: Style and cleanup Edge Details: Slice and Types
 // I TODO: Add Area to start a Job; ASK Martin for correct FORM Management
 // I TODO: Result map error when reloading the page while selection on Table exists
-// I TODO: Fullscreen Mode conflicts Dialog ==> Use Fullscreen Code to write own functions to handle the Resizing of the component
 
 export default function ItemRelationshipService() {
   const { t } = useTranslation()
+  const theme = useTheme()
+
   const { jobs, loading } = useSelector(jobsSelector)
   const { job } = useSelector(jobsSelector)
   const { showNodeDialog } = useSelector(nodeDialogSelector)
@@ -122,9 +130,9 @@ export default function ItemRelationshipService() {
   const nodes = useSelector(nodeSelector)
   const edges = useSelector(edgeSelector)
 
-  // console.log('job: ', job)
-  // console.log('node: ', nodes)
-  // console.log('edges: ', edges)
+  console.log('job: ', job)
+  console.log('node: ', nodes)
+  console.log('edges: ', edges)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -178,9 +186,9 @@ export default function ItemRelationshipService() {
     collectAspects: true,
     direction: 'downward',
     depth: 10,
-    globalAssetId: 'urn:uuid:01410ecb-5894-46d1-bcce-4ae61a6939dc', // inttest
+    globalAssetId: 'urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb',
   }
-  // globalAssetId: 'urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb',
+  // globalAssetId: 'urn:uuid:01410ecb-5894-46d1-bcce-4ae61a6939dc', // inttest
 
   const handle = useFullScreenHandle()
 
@@ -342,6 +350,60 @@ export default function ItemRelationshipService() {
                 }
               />
             </FullScreen>
+          </Box>
+        </section>
+      )}
+
+      {job && nodes.length === 0 && edges.length === 0 && job.tombstones.length > 0 && (
+        <section>
+
+          <Box className="irs-tombstones-details">
+            <Box className="irs-tombstones-details-header">
+              <Box
+                style={{
+                  display: 'inline-block',
+                  color: theme.palette.error.light,
+                  marginTop: 20,
+                }}
+              >
+                <ErrorOutlineIcon
+                  style={{
+                    fontSize: 50,
+                    float: 'left',
+                    verticalAlign: 'middle',
+                    marginTop: 10,
+                  }}
+                ></ErrorOutlineIcon>
+                <h2 style={{ float: 'left', marginLeft: 10 }}>
+                  {t('content.irs.dialog.submodelTombstones.title')}
+                </h2>
+              </Box>
+
+            </Box>
+            <Box className="irs-tombstones-details-content">
+
+
+            {job.tombstones.map((stone) => {
+              return (
+                <Box key={`${uniqueId(stone.catenaXId)}`}>
+                  <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
+                  <DetailGrid
+                    topic={t('content.irs.dialog.submodelTombstones.lastAttempt')+':'}
+                    content={dayjs(stone.processingError.lastAttempt).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                      )}
+                      />
+                  <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
+                  <DetailGrid
+                    topic={t('content.irs.dialog.submodelTombstones.errorDetail')+':'}
+                    content={
+                      stone.processingError.errorDetail
+                    }
+                    />
+                </Box>
+              )
+            })}
+            </Box>
           </Box>
         </section>
       )}
