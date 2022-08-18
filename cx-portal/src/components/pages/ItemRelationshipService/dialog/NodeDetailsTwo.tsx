@@ -24,6 +24,7 @@ import { DetailGrid } from '../../../shared/basic/DetailGrid'
 import { Grid, Box, Divider, useTheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { SubmodelTobmstones } from './SubmodelTobmstones'
+import uniqueId from 'lodash/uniqueId'
 
 export const NodeDetailsTwo = ({ twin }: { twin: ShellDescriptor }) => {
   const theme = useTheme()
@@ -49,7 +50,7 @@ export const NodeDetailsTwo = ({ twin }: { twin: ShellDescriptor }) => {
     semId: string,
     idKey: string
   ) => (
-    <>
+    <div key={uniqueId()}>
       <h1 style={{ marginTop: '100px' }}>{subModel.idShort} aspect</h1>
       <h3>Submodel Descriptor</h3>
       {getDesciption(subModel)}
@@ -103,7 +104,7 @@ export const NodeDetailsTwo = ({ twin }: { twin: ShellDescriptor }) => {
       ))}
 
       <SubmodelTobmstones subModel={subModel}></SubmodelTobmstones>
-    </>
+    </div>
   )
 
   return (

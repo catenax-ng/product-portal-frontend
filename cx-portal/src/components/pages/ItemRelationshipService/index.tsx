@@ -118,6 +118,9 @@ import uniqueId from 'lodash/uniqueId'
 // I TODO: Style and cleanup Edge Details: Slice and Types
 // I TODO: Add Area to start a Job; ASK Martin for correct FORM Management
 // I TODO: Result map error when reloading the page while selection on Table exists
+// I TODO: Clean up Index.tsx file and decupple some parts (Error Message)
+// I TODO: Rename SubmodelTobmstones.tsx 
+
 
 export default function ItemRelationshipService() {
   const { t } = useTranslation()
@@ -130,9 +133,9 @@ export default function ItemRelationshipService() {
   const nodes = useSelector(nodeSelector)
   const edges = useSelector(edgeSelector)
 
-  console.log('job: ', job)
-  console.log('node: ', nodes)
-  console.log('edges: ', edges)
+  // console.log('job: ', job)
+  // console.log('node: ', nodes)
+  // console.log('edges: ', edges)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -354,64 +357,59 @@ export default function ItemRelationshipService() {
         </section>
       )}
 
-      {job &&
-        nodes.length === 0 &&
-        edges.length === 0 &&
-        job.tombstones.length > 0 && (
-          <section>
-            <Box className="irs-tombstones-details">
-              <Box className="irs-tombstones-details-header">
-                <Box
+      {job && nodes.length === 0 && edges.length === 0 && job.tombstones.length > 0 && (
+        <section>
+
+          <Box className="irs-tombstones-details">
+            <Box className="irs-tombstones-details-header">
+              <Box
+                style={{
+                  display: 'inline-block',
+                  color: theme.palette.error.light,
+                  marginTop: 20,
+                }}
+              >
+                <ErrorOutlineIcon
                   style={{
-                    display: 'inline-block',
-                    color: theme.palette.error.light,
-                    marginTop: 20,
+                    fontSize: 50,
+                    float: 'left',
+                    verticalAlign: 'middle',
+                    marginTop: 10,
                   }}
-                >
-                  <ErrorOutlineIcon
-                    style={{
-                      fontSize: 50,
-                      float: 'left',
-                      verticalAlign: 'middle',
-                      marginTop: 10,
-                    }}
-                  ></ErrorOutlineIcon>
-                  <h2 style={{ float: 'left', marginLeft: 10 }}>
-                    {t('content.irs.dialog.submodelTombstones.title')}
-                  </h2>
-                </Box>
+                ></ErrorOutlineIcon>
+                <h2 style={{ float: 'left', marginLeft: 10 }}>
+                  {t('content.irs.dialog.submodelTombstones.title')}
+                </h2>
               </Box>
-              <Box className="irs-tombstones-details-content">
-                {job.tombstones.map((stone) => {
-                  return (
-                    <Box key={`${uniqueId(stone.catenaXId)}`}>
-                      <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
-                      <DetailGrid
-                        topic={
-                          t(
-                            'content.irs.dialog.submodelTombstones.lastAttempt'
-                          ) + ':'
-                        }
-                        content={dayjs(
-                          stone.processingError.lastAttempt
-                        ).format('YYYY-MM-DD HH:mm:ss')}
-                      />
-                      <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
-                      <DetailGrid
-                        topic={
-                          t(
-                            'content.irs.dialog.submodelTombstones.errorDetail'
-                          ) + ':'
-                        }
-                        content={stone.processingError.errorDetail}
-                      />
-                    </Box>
-                  )
-                })}
-              </Box>
+
             </Box>
-          </section>
-        )}
+            <Box className="irs-tombstones-details-content">
+
+
+            {job.tombstones.map((stone) => {
+              return (
+                <Box key={`${uniqueId(stone.catenaXId)}`}>
+                  <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
+                  <DetailGrid
+                    topic={t('content.irs.dialog.submodelTombstones.lastAttempt')+':'}
+                    content={dayjs(stone.processingError.lastAttempt).format(
+                      'YYYY-MM-DD HH:mm:ss'
+                      )}
+                      />
+                  <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
+                  <DetailGrid
+                    topic={t('content.irs.dialog.submodelTombstones.errorDetail')+':'}
+                    content={
+                      stone.processingError.errorDetail
+                    }
+                    />
+                </Box>
+              )
+            })}
+            </Box>
+          </Box>
+        </section>
+      )}
 
       <NodeDetailDialog
         show={showNodeDialog}

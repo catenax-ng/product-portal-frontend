@@ -164,10 +164,10 @@ export const SubmodelTobmstones = ({ subModel }: props) => {
 
           {/* <h2 style={{ color: theme.palette.success.main }}>{t('content.irs.dialog.submodelPayload.title')}</h2> */}
           {submodelPayload.map((payload) => {
-            console.log(payload.payload)
+            // console.log(payload.payload)
             return (
               <Box
-                key={`payload_${payload.identification}_${payload.aspectType}`}
+                key={`${uniqueId(payload.identification)}`}
               >
                 <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
 

@@ -28,6 +28,7 @@ import { nodeDialogSelector, getShells } from 'features/irs/slice'
 import { ShellDescriptor } from 'features/digitalTwins/types'
 import { useTranslation } from 'react-i18next'
 import { NodeDetailsTwo } from './NodeDetailsTwo'
+import { uniqueId } from 'lodash'
 
 interface NodeDialogProps {
   show: boolean
@@ -50,7 +51,9 @@ export const NodeDetailDialog = ({ show, onClose }: NodeDialogProps) => {
         closeWithIcon
         onCloseWithIcon={onClose}
       />
-      <DialogContent>{twin && <NodeDetailsTwo twin={twin} />}</DialogContent>
+      <DialogContent 
+        key={uniqueId()}
+      >{twin && <NodeDetailsTwo twin={twin} />}</DialogContent>
     </Dialog>
   )
 }
