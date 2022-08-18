@@ -171,10 +171,10 @@ interface SemanticId {
 }
 
 export interface IRSRequestBody {
-  aspects: string[],
-  bomLifecycle: string,
+  aspects: string[]
+  bomLifecycle: string
   direction?: string
-  collectAspects?: boolean,
-  depth?: number,
+  collectAspects?: boolean
+  depth?: number
   globalAssetId: string
 }

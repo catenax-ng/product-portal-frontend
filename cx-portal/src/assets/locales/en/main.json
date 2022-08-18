@@ -271,7 +271,7 @@
           "assembledOn": "Assembled on",
           "lastModifiedOn": "Last modified on",
           "lifecycleContext": "Lifecycle context",
-          "measurementUnit": { 
+          "measurementUnit": {
             "datatypeURI": "URI data type",
             "lexicalValue": "Lexical value"
           },

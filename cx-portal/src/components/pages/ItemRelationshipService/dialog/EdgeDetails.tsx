@@ -25,7 +25,6 @@ import { useSelector } from 'react-redux'
 import { getEdgebyEdgeIdSelector } from 'features/irs/slice'
 import dayjs from 'dayjs'
 
-
 export const EdgeDetails = ({ edge }: { edge: any }) => {
   const theme = useTheme()
   const { t } = useTranslation()
@@ -34,9 +33,7 @@ export const EdgeDetails = ({ edge }: { edge: any }) => {
     return getEdgebyEdgeIdSelector(state, edge)
   })
 
-  
   const hasEdges = () => edgeInfo.length > 0
-
 
   return (
     <>
@@ -56,50 +53,60 @@ export const EdgeDetails = ({ edge }: { edge: any }) => {
         </Grid>
       </Grid>
 
-      {hasEdges() &&
+      {hasEdges() && (
         <>
           <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
           <DetailGrid
-            topic={t('content.irs.dialog.edge.catenaXId')+":"}
+            topic={t('content.irs.dialog.edge.catenaXId') + ':'}
             content={edgeInfo[0].catenaXId}
           />
           <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
           <DetailGrid
-            topic={t('content.irs.dialog.edge.childCatenaXId')+":"}
+            topic={t('content.irs.dialog.edge.childCatenaXId') + ':'}
             content={edgeInfo[0].childItem.childCatenaXId}
           />
           <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
           <DetailGrid
-            topic={t('content.irs.dialog.edge.assembledOn')+":"}
-            content={dayjs(edgeInfo[0].childItem.assembledOn).format('YYYY-MM-DD HH:mm:ss')}
+            topic={t('content.irs.dialog.edge.assembledOn') + ':'}
+            content={dayjs(edgeInfo[0].childItem.assembledOn).format(
+              'YYYY-MM-DD HH:mm:ss'
+            )}
           />
           <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
           <DetailGrid
-            topic={t('content.irs.dialog.edge.lastModifiedOn')+":"}
-            content={dayjs(edgeInfo[0].childItem.lastModifiedOn).format('YYYY-MM-DD HH:mm:ss')}
+            topic={t('content.irs.dialog.edge.lastModifiedOn') + ':'}
+            content={dayjs(edgeInfo[0].childItem.lastModifiedOn).format(
+              'YYYY-MM-DD HH:mm:ss'
+            )}
           />
           <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
           <DetailGrid
-            topic={t('content.irs.dialog.edge.lifecycleContext')+":"}
+            topic={t('content.irs.dialog.edge.lifecycleContext') + ':'}
             content={edgeInfo[0].childItem.lifecycleContext}
           />
           <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
           <DetailGrid
-            topic={t('content.irs.dialog.edge.measurementUnit.datatypeURI')+":"}
+            topic={
+              t('content.irs.dialog.edge.measurementUnit.datatypeURI') + ':'
+            }
             content={edgeInfo[0].childItem.quantity.measurementUnit.datatypeURI}
           />
           <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
           <DetailGrid
-            topic={t('content.irs.dialog.edge.measurementUnit.lexicalValue')+":"}
-            content={edgeInfo[0].childItem.quantity.measurementUnit.lexicalValue}
+            topic={
+              t('content.irs.dialog.edge.measurementUnit.lexicalValue') + ':'
+            }
+            content={
+              edgeInfo[0].childItem.quantity.measurementUnit.lexicalValue
+            }
           />
           <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
           <DetailGrid
-            topic={t('content.irs.dialog.edge.quantityNumber')+":"}
+            topic={t('content.irs.dialog.edge.quantityNumber') + ':'}
             content={edgeInfo[0].childItem.quantity.quantityNumber}
           />
-        </> 
-      }
+        </>
+      )}
 
       {/* <SyntaxHighlighter
         key={`payload_${edge.id}_2`}

@@ -40,9 +40,7 @@ import { useTranslation } from 'react-i18next'
 import { EdgeDetailDialog } from './dialog/EdgeDetailDialog'
 import { Button } from 'cx-portal-shared-components'
 import TextField from '@mui/material/TextField'
-import { FullScreen, useFullScreenHandle } from "react-full-screen";
-
-
+import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 
 // What to do for integration in this project
 // 1. install dependencies
@@ -169,23 +167,18 @@ export default function ItemRelationshipService() {
   }
 
   const testJob = {
-    "aspects": [
-      "AssemblyPartRelationship",
-      "SerialPartTypization"
-    ],
-    "bomLifecycle": "asBuilt",
-    "collectAspects": true,
-    "direction": "downward",
-    "depth": 10,
-    "globalAssetId": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"
+    aspects: ['AssemblyPartRelationship', 'SerialPartTypization'],
+    bomLifecycle: 'asBuilt',
+    collectAspects: true,
+    direction: 'downward',
+    depth: 10,
+    globalAssetId: 'urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb',
   }
 
   const handle = useFullScreenHandle()
-  
-  
+
   return (
     <main className="main">
-
       <section>
         <TextField
           // error={!!errors[name]}
@@ -204,16 +197,20 @@ export default function ItemRelationshipService() {
           placeholder={JSON.stringify(testJob, null, 2)}
           value={JSON.stringify(testJob, null, 2)}
           variant="filled"
-          FormHelperTextProps={{
-            // sx: { marginLeft: !!errors[name] ? '' : 'auto' },
-          }}
-          InputProps={{
-            // endAdornment: !!errors[name] && (
-            //   <InputAdornment sx={{ color: 'danger.danger' }} position="end">
-            //     <ErrorOutlineOutlinedIcon />
-            //   </InputAdornment>
-            // ),
-          }}
+          FormHelperTextProps={
+            {
+              // sx: { marginLeft: !!errors[name] ? '' : 'auto' },
+            }
+          }
+          InputProps={
+            {
+              // endAdornment: !!errors[name] && (
+              //   <InputAdornment sx={{ color: 'danger.danger' }} position="end">
+              //     <ErrorOutlineOutlinedIcon />
+              //   </InputAdornment>
+              // ),
+            }
+          }
         />
 
         <Button
@@ -232,7 +229,6 @@ export default function ItemRelationshipService() {
           Send Job Request
         </Button>
       </section>
-
 
       <section style={{ paddingBottom: 20 }}>
         <Table
@@ -256,66 +252,61 @@ export default function ItemRelationshipService() {
       {job && nodes.length > 0 && edges.length >= 0 && (
         <section>
           <Box className="irs-visualization" sx={{ textAlign: 'center' }}>
-            
-            <button onClick={handle.enter}>
-              Enter fullscreen
-            </button>
+            <button onClick={handle.enter}>Enter fullscreen</button>
 
             <FullScreen handle={handle}>
               Any fullscreen content here
-            <Box className="irs-visualization-header">
-              <h5>{t('content.irs.visualization.title')}</h5>
-            </Box>
-
-
-            <Canvas
-              className="canvas"
-              zoom={0.4}
-              height={800}
-              nodes={nodes}
-              edges={edges}
-              defaultPosition={CanvasPosition.TOP}
-              node={
-                <Node
-                removable={false}
-                style={nodeStyle}
-                onClick={(event: any, node) => {
-                  event.preventDefault()
-                  console.log('CLICK', node)
-                  dispatch(jobSlice.actions.openNodeDialog(node.id))
-                }}
-                >
-                  {(nodeChild) => (
-                    <foreignObject
-                    height={290}
-                    width={290}
-                    x={0}
-                    y={0}
-                    // onClick={(event, node) => {
-                      //     console.log('Selecting Node', event, node)
-                      //     if (onClick) onClick(event, node)
-                      // }}
+              <Box className="irs-visualization-header">
+                <h5>{t('content.irs.visualization.title')}</h5>
+              </Box>
+              <Canvas
+                className="canvas"
+                zoom={0.4}
+                height={800}
+                nodes={nodes}
+                edges={edges}
+                defaultPosition={CanvasPosition.TOP}
+                node={
+                  <Node
+                    removable={false}
+                    style={nodeStyle}
+                    onClick={(event: any, node) => {
+                      event.preventDefault()
+                      console.log('CLICK', node)
+                      dispatch(jobSlice.actions.openNodeDialog(node.id))
+                    }}
+                  >
+                    {(nodeChild) => (
+                      <foreignObject
+                        height={290}
+                        width={290}
+                        x={0}
+                        y={0}
+                        // onClick={(event, node) => {
+                        //     console.log('Selecting Node', event, node)
+                        //     if (onClick) onClick(event, node)
+                        // }}
                       >
-                      <Box>
-                        <NodeTemplate shell={nodeChild.node}></NodeTemplate>
-                      </Box>
-                    </foreignObject>
-                  )}
-                </Node>
-              }
-              edge={
-                <Edge
-                removable={false}
-                className="edge"
-                style={edgeStyle}
-                onClick={(event, edge) => {
-                  // console.log('Selecting Edge', event, edge)
-                  dispatch(jobSlice.actions.openEdgeDialog(edge))
-                }}
-                />
-              }
+                        <Box>
+                          <NodeTemplate shell={nodeChild.node}></NodeTemplate>
+                        </Box>
+                      </foreignObject>
+                    )}
+                  </Node>
+                }
+                edge={
+                  <Edge
+                    removable={false}
+                    className="edge"
+                    style={edgeStyle}
+                    onClick={(event, edge) => {
+                      // console.log('Selecting Edge', event, edge)
+                      dispatch(jobSlice.actions.openEdgeDialog(edge))
+                    }}
+                  />
+                }
               />
-          </FullScreen>
+            </FullScreen>
           </Box>
         </section>
       )}

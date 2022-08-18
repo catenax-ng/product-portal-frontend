@@ -39,13 +39,16 @@ const fetchJobs = createAsyncThunk('fetch Jobs', async () => {
   }
 })
 
-const postJob = createAsyncThunk('post Job',async (reqBody:IRSRequestBody) => {
-  try{
-    return await Api.getInstance().setJob(reqBody)
-  } catch (error: unknown) {
-    console.error('api call error:', error)
-    throw Error('Get jobs api call error')
+const postJob = createAsyncThunk(
+  'post Job',
+  async (reqBody: IRSRequestBody) => {
+    try {
+      return await Api.getInstance().setJob(reqBody)
+    } catch (error: unknown) {
+      console.error('api call error:', error)
+      throw Error('Get jobs api call error')
+    }
   }
-})
+)
 
 export { fetchJobById, fetchJobs, postJob }

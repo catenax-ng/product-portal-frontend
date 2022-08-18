@@ -36,7 +36,6 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 import SourceIcon from '@mui/icons-material/Source'
 import uniqueId from 'lodash/uniqueId'
 
-
 interface props {
   subModel: SubmodelDescriptors
   // hasTombstones?: (x:boolean) => void

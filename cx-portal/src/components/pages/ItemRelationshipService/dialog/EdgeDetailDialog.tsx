@@ -37,11 +37,7 @@ export const EdgeDetailDialog = ({ show, onClose }: EdgeDialogProps) => {
 
   return (
     <Dialog open={show}>
-      <DialogHeader
-        title={''}
-        closeWithIcon
-        onCloseWithIcon={onClose}
-      />
+      <DialogHeader title={''} closeWithIcon onCloseWithIcon={onClose} />
       <DialogContent>
         <EdgeDetails edge={edgeDialoge.edgeId} />
       </DialogContent>
