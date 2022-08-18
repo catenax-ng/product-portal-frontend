@@ -113,7 +113,6 @@ import { FullScreen, useFullScreenHandle } from './helper/FullScreenHandler'
 // I TODO: Result map error when reloading the page while selection on Table exists
 // I TODO: Fullscreen Mode conflicts Dialog ==> Use Fullscreen Code to write own functions to handle the Resizing of the component
 
-
 export default function ItemRelationshipService() {
   const { t } = useTranslation()
   const { jobs, loading } = useSelector(jobsSelector)
@@ -322,12 +321,7 @@ export default function ItemRelationshipService() {
                     }}
                   >
                     {(nodeChild) => (
-                      <foreignObject
-                        height={290}
-                        width={290}
-                        x={0}
-                        y={0}
-                      >
+                      <foreignObject height={290} width={290} x={0} y={0}>
                         <Box>
                           <NodeTemplate shell={nodeChild.node}></NodeTemplate>
                         </Box>
