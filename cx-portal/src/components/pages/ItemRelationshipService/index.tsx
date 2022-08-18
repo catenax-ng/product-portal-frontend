@@ -354,59 +354,64 @@ export default function ItemRelationshipService() {
         </section>
       )}
 
-      {job && nodes.length === 0 && edges.length === 0 && job.tombstones.length > 0 && (
-        <section>
-
-          <Box className="irs-tombstones-details">
-            <Box className="irs-tombstones-details-header">
-              <Box
-                style={{
-                  display: 'inline-block',
-                  color: theme.palette.error.light,
-                  marginTop: 20,
-                }}
-              >
-                <ErrorOutlineIcon
+      {job &&
+        nodes.length === 0 &&
+        edges.length === 0 &&
+        job.tombstones.length > 0 && (
+          <section>
+            <Box className="irs-tombstones-details">
+              <Box className="irs-tombstones-details-header">
+                <Box
                   style={{
-                    fontSize: 50,
-                    float: 'left',
-                    verticalAlign: 'middle',
-                    marginTop: 10,
+                    display: 'inline-block',
+                    color: theme.palette.error.light,
+                    marginTop: 20,
                   }}
-                ></ErrorOutlineIcon>
-                <h2 style={{ float: 'left', marginLeft: 10 }}>
-                  {t('content.irs.dialog.submodelTombstones.title')}
-                </h2>
-              </Box>
-
-            </Box>
-            <Box className="irs-tombstones-details-content">
-
-
-            {job.tombstones.map((stone) => {
-              return (
-                <Box key={`${uniqueId(stone.catenaXId)}`}>
-                  <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
-                  <DetailGrid
-                    topic={t('content.irs.dialog.submodelTombstones.lastAttempt')+':'}
-                    content={dayjs(stone.processingError.lastAttempt).format(
-                      'YYYY-MM-DD HH:mm:ss'
-                      )}
-                      />
-                  <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
-                  <DetailGrid
-                    topic={t('content.irs.dialog.submodelTombstones.errorDetail')+':'}
-                    content={
-                      stone.processingError.errorDetail
-                    }
-                    />
+                >
+                  <ErrorOutlineIcon
+                    style={{
+                      fontSize: 50,
+                      float: 'left',
+                      verticalAlign: 'middle',
+                      marginTop: 10,
+                    }}
+                  ></ErrorOutlineIcon>
+                  <h2 style={{ float: 'left', marginLeft: 10 }}>
+                    {t('content.irs.dialog.submodelTombstones.title')}
+                  </h2>
                 </Box>
-              )
-            })}
+              </Box>
+              <Box className="irs-tombstones-details-content">
+                {job.tombstones.map((stone) => {
+                  return (
+                    <Box key={`${uniqueId(stone.catenaXId)}`}>
+                      <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
+                      <DetailGrid
+                        topic={
+                          t(
+                            'content.irs.dialog.submodelTombstones.lastAttempt'
+                          ) + ':'
+                        }
+                        content={dayjs(
+                          stone.processingError.lastAttempt
+                        ).format('YYYY-MM-DD HH:mm:ss')}
+                      />
+                      <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
+                      <DetailGrid
+                        topic={
+                          t(
+                            'content.irs.dialog.submodelTombstones.errorDetail'
+                          ) + ':'
+                        }
+                        content={stone.processingError.errorDetail}
+                      />
+                    </Box>
+                  )
+                })}
+              </Box>
             </Box>
-          </Box>
-        </section>
-      )}
+          </section>
+        )}
 
       <NodeDetailDialog
         show={showNodeDialog}
