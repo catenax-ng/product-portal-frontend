@@ -238,8 +238,7 @@
         "jobID": "Id",
         "status": "Status",
         "visualize": "Visualization",
-        "toggleAutoRefresh":"Auto Refresh every 5 seconds"
-
+        "toggleAutoRefresh": "Auto Refresh every 5 seconds"
       },
       "jobDetails": {
         "title": "Item Relationship Service Job Details",
@@ -282,12 +281,12 @@
       },
       "form": {
         "title": "Build a new Data Chain",
-        "requestBodyValues":{
-          "label":"JSON Body Data Chain Parameters",
-          "helperText":"Input does is not a valid JSON format"
+        "requestBodyValues": {
+          "label": "JSON Body Data Chain Parameters",
+          "helperText": "Input does is not a valid JSON format"
         },
         "environment": {
-          "label":"Choose Environment"
+          "label": "Choose Environment"
         },
         "sendButton": "Build Data Chain"
       }

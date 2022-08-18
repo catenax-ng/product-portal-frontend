@@ -52,8 +52,8 @@ import { useTheme } from '@mui/material'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 import uniqueId from 'lodash/uniqueId'
 import { IRSJobAddForm } from './form/IRSJobAddForm'
-import { styled } from '@mui/material/styles';
-import Switch, { SwitchProps } from '@mui/material/Switch';
+import { styled } from '@mui/material/styles'
+import Switch, { SwitchProps } from '@mui/material/Switch'
 
 // What to do for integration in this project
 // 1. install dependencies
@@ -156,20 +156,20 @@ export default function ItemRelationshipService() {
   //   }
   // })
 
-  const [refreshIntervalId, setRefreshIntervalId] = useState<number|any>()
+  const [refreshIntervalId, setRefreshIntervalId] = useState<number | any>()
 
-  const autoRefresh = (isAutoRefresh:boolean) =>{
-        if(isAutoRefresh){
-          const refreshInterval = setInterval(() =>{
-            console.log('timer', refreshInterval)
-            // Update jobs
-            dispatch(fetchJobs())
-          }, 5*1000)
-          setRefreshIntervalId(refreshInterval)
-        } else {
-          clearInterval(refreshIntervalId)
-        }
-      }
+  const autoRefresh = (isAutoRefresh: boolean) => {
+    if (isAutoRefresh) {
+      const refreshInterval = setInterval(() => {
+        console.log('timer', refreshInterval)
+        // Update jobs
+        dispatch(fetchJobs())
+      }, 5 * 1000)
+      setRefreshIntervalId(refreshInterval)
+    } else {
+      clearInterval(refreshIntervalId)
+    }
+  }
 
   const closeNodeDialog = () => {
     dispatch(jobSlice.actions.closeNodeDialog())
@@ -231,22 +231,17 @@ export default function ItemRelationshipService() {
 
   return (
     <main className="main">
-
-
-
       <IRSJobAddForm></IRSJobAddForm>
-  
 
       <section style={{ paddingBottom: 20 }}>
-
-
-        <IOSSwitch sx={{ m: 1 }} 
-          onChange={ (event) => {
+        <IOSSwitch
+          sx={{ m: 1 }}
+          onChange={(event) => {
             // console.log(event.target.checked)
             autoRefresh(event.target.checked)
           }}
-          />
-          {t('content.irs.jobsTable.toggleAutoRefresh')}
+        />
+        {t('content.irs.jobsTable.toggleAutoRefresh')}
         <Table
           // title="IRS Jobs"
           title={t('content.irs.jobsTable.title')}
@@ -411,7 +406,6 @@ export default function ItemRelationshipService() {
   )
 }
 
-
 const IOSSwitch = styled((props: SwitchProps) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
 ))(({ theme }) => ({
@@ -461,4 +455,4 @@ const IOSSwitch = styled((props: SwitchProps) => (
       duration: 500,
     }),
   },
-}));
+}))

@@ -1,23 +1,24 @@
-import { Controller } from "react-hook-form"
+import { Controller } from 'react-hook-form'
 import InputLabel from '@mui/material/InputLabel'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined'
 
 export const IRSJobAddFormTextfield = ({
-    control,
-    trigger,
-    errors,
-    helperText,
-    label,
-    placeholder,
-    name,
-    rules,
-    limit = 1000
+  control,
+  trigger,
+  errors,
+  helperText,
+  label,
+  placeholder,
+  name,
+  rules,
+  limit = 1000,
 }: any) => {
-    return (
-        <Controller render={({ field: { onChange, value } }) => (
-            <>
+  return (
+    <Controller
+      render={({ field: { onChange, value } }) => (
+        <>
           <InputLabel error={!!errors[name]} sx={{ marginBottom: '7px' }}>
             {label}
           </InputLabel>
@@ -50,10 +51,10 @@ export const IRSJobAddFormTextfield = ({
             }}
           />
         </>
-        )}
-            name={name}
-            control={control}
-            rules={rules}
-        />
-    )
+      )}
+      name={name}
+      control={control}
+      rules={rules}
+    />
+  )
 }
