@@ -40,8 +40,6 @@ import { IrsJobDetails } from './irsJobDetails'
 import { NodeDetailDialog } from './dialog/NodeDetailDialog'
 import { useTranslation } from 'react-i18next'
 import { EdgeDetailDialog } from './dialog/EdgeDetailDialog'
-import { Button } from 'cx-portal-shared-components'
-import TextField from '@mui/material/TextField'
 import { IconButton } from 'cx-portal-shared-components'
 import FullscreenIcon from '@mui/icons-material/Fullscreen'
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
@@ -144,17 +142,6 @@ export default function ItemRelationshipService() {
   useEffect(() => {
     dispatch(fetchJobs())
   }, [dispatch])
-
-  // Automatic Refresh
-  // const s = true
-  // useEffect(() => {
-  //   if(s){
-  //     setInterval(() =>{
-  //       // console.log('timer', dispatch(fetchJobs()))
-  //       // Update jobs
-  //     }, 30*1000)
-  //   }
-  // })
 
   const [refreshIntervalId, setRefreshIntervalId] = useState<number | any>()
 
