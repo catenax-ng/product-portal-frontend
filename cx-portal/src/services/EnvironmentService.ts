@@ -1,5 +1,5 @@
-const LOCAL_SERVICES_FRONTEND = 'https://portal.dev.demo.catena-x.net'
-const LOCAL_SERVICES_BACKEND = 'https://portal-backend.dev.demo.catena-x.net'
+const LOCAL_SERVICES_FRONTEND = 'https://portal.int.demo.catena-x.net'
+const LOCAL_SERVICES_BACKEND = 'https://portal-backend.int.demo.catena-x.net'
 //const LOCAL_SERVICES_CENTRALIDP = 'https://centralidp.dev.demo.catena-x.net'
 //const LOCAL_SERVICES_BPDM = 'https://bpdm.dev.demo.catena-x.net'
 
@@ -23,7 +23,7 @@ export const getCentralIdp = () => {
     return 'https://centralidp-pen.dev.demo.catena-x.net/auth'
   if (hostname === 'portal.catena-x.net')
     return 'https://centralidp.catena-x.net/auth'
-  return 'https://centralidp.dev.demo.catena-x.net/auth'
+  return 'https://centralidp.demo.catena-x.net/auth'
 }
 
 export const getClientId = () => 'Cl2-CX-Portal'
@@ -35,7 +35,7 @@ export const getBpdmApiBase = () => {
     return 'https://catenax-bpdm-int.demo.catena-x.net/api'
   if (hostname === 'portal.catena-x.net')
     return 'https://catenax-bpdm-dev.demo.catena-x.net/api'
-  return 'https://catenax-bpdm-dev.demo.catena-x.net/api'
+  return 'https://catenax-bpdm-int.demo.catena-x.net/api'
 }
 //export const getBpdmApiBase = () =>
 //  isLocal()
