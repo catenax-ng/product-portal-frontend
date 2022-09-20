@@ -518,6 +518,9 @@
       "message": "We are logging you out now... Hope to see you again soon!"
     },
     "notfound": {
+      "title": "Something went wrong.",
+      "description": "You don't have access to this page or the page doesn't exist. Please contact your admin.",
+      "button": "HomePage",
       "message": "The content could not be found. This can happen because of various reasons - either",
       "reason": {
         "nopermission": "you have no permission to view this content or",
