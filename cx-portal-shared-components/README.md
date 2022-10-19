@@ -25,7 +25,6 @@ Edit `src/index.tsx` and wrap the `App` with the CX `SharedThemeProvider` contex
 	import ReactDOM from 'react-dom/client';
 	import App from './App';
 	import { SharedThemeProvider } from 'cx-portal-shared-components';
-	import './index.css';
 
 	ReactDOM.createRoot(
 	  document.getElementById('root') as HTMLElement
@@ -38,7 +37,7 @@ Edit `src/index.tsx` and wrap the `App` with the CX `SharedThemeProvider` contex
 	)
 
 
-Edit `src/index.css` and replace the content with this stylings
+Edit `src/App.css` and replace the content with this stylings
 
 	header {
 	  width: 200px;
@@ -48,10 +47,19 @@ Edit `src/index.css` and replace the content with this stylings
 	  padding: 200px;
 	}
 
+	footer {
+	  width: 100%;
+	  position: absolute;
+	  bottom: 0;
+	  text-align: center;
+	  min-height: 40px;
+	}
+
 
 Open `App.tsx` and replace the code with this example
 
 	import { Button, Logo, Typography } from "cx-portal-shared-components";
+	import './App.css'
 
 	const App = () => 
 	    <>
@@ -65,8 +73,10 @@ Open `App.tsx` and replace the code with this example
 		    </Typography>
 		    <Button onClick={() => { alert('clicked') }}>Click me</Button>
 		</main>
+		<footer>
+		     <Typography>Copyright © Catena-X Automotive Network</Typography>          
+		</footer>
 	    </>
 
 	export default App;
-
 
