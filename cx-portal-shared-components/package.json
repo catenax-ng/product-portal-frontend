@@ -34,6 +34,7 @@
     "@types/autosuggest-highlight": "^3.2.0",
     "@types/react-slick": "^0.23.8",
     "autosuggest-highlight": "^3.2.1",
+    "buffer": "^6.0.3",
     "date-fns": "^2.29.1",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.1",
