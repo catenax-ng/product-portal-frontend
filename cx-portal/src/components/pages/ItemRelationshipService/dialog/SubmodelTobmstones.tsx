@@ -176,7 +176,7 @@ export const SubmodelTobmstones = ({ subModel }: props) => {
                       style={googlecode}
                       language="json"
                     >
-                      {JSON.stringify(payload , null, 2)}
+                      {JSON.stringify(payload, null, 2)}
                     </SyntaxHighlighter>
                   }
                 />

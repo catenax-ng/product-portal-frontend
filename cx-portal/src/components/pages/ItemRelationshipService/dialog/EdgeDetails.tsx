@@ -89,7 +89,9 @@ export const EdgeDetails = ({ edge }: { edge: any }) => {
             topic={
               t('content.irs.dialog.edge.measurementUnit.datatypeURI') + ':'
             }
-            content={edgeInfo[0].linkedItem.quantity.measurementUnit.datatypeURI}
+            content={
+              edgeInfo[0].linkedItem.quantity.measurementUnit.datatypeURI
+            }
           />
           <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
           <DetailGrid

@@ -133,8 +133,6 @@ export default function ItemRelationshipService() {
   const nodes = useSelector(nodeSelector)
   const edges = useSelector(edgeSelector)
 
-
-
   console.log('job: ', job)
   console.log('node: ', nodes)
   console.log('edges: ', edges)
@@ -154,11 +152,10 @@ export default function ItemRelationshipService() {
       const refreshInterval = setInterval(() => {
         // console.log('selectionModel',selectionModel)
         dispatch(fetchJobs())
-        if(selectionModel){
+        if (selectionModel) {
           // console.log('fetchJobById')
           dispatch(fetchJobById(selectionModel))
         }
-
       }, 5 * 1000)
       setRefreshIntervalId(refreshInterval)
     } else {
@@ -176,7 +173,7 @@ export default function ItemRelationshipService() {
   }
 
   const visualize = (id: string) => {
-    if(id){
+    if (id) {
       const encodedId = encodeURIComponent(id)
       dispatch(fetchJobById(encodedId))
     }
@@ -231,40 +228,39 @@ export default function ItemRelationshipService() {
     <main className="main">
       <IRSJobAddForm></IRSJobAddForm>
 
-      { jobs && (
-
+      {jobs && (
         <section style={{ paddingBottom: 20 }}>
-        <IOSSwitch
-          sx={{ m: 1 }}
-          onChange={(event) => {
-            // console.log(event.target.checked)
-            autoRefresh(event.target.checked)
-          }}
+          <IOSSwitch
+            sx={{ m: 1 }}
+            onChange={(event) => {
+              // console.log(event.target.checked)
+              autoRefresh(event.target.checked)
+            }}
           />
-        {t('content.irs.jobsTable.toggleAutoRefresh')}
-        <Table
-          // title="IRS Jobs"
-          title={t('content.irs.jobsTable.title')}
-          className="irs-table"
-          columns={columns}
-          rows={jobs}
-          getRowId={(row: any) => `${row.jobId}`}
-          loading={loading}
-          disableColumnSelector={true}
-          disableDensitySelector={true}
-          hideFooter={true}
-          disableColumnMenu={true}
-          selectionModel={selectionModel}
-          onSelectionModelChange={(item: any) => {
-            if(item.length == 1 ){
-              const id = item[0].toString()
-              setSelectionModel(id)
-              visualize(id)
-            }
-          }}
+          {t('content.irs.jobsTable.toggleAutoRefresh')}
+          <Table
+            // title="IRS Jobs"
+            title={t('content.irs.jobsTable.title')}
+            className="irs-table"
+            columns={columns}
+            rows={jobs}
+            getRowId={(row: any) => `${row.jobId}`}
+            loading={loading}
+            disableColumnSelector={true}
+            disableDensitySelector={true}
+            hideFooter={true}
+            disableColumnMenu={true}
+            selectionModel={selectionModel}
+            onSelectionModelChange={(item: any) => {
+              if (item.length == 1) {
+                const id = item[0].toString()
+                setSelectionModel(id)
+                visualize(id)
+              }
+            }}
           />
-      </section>
-          )}
+        </section>
+      )}
 
       {job && <IrsJobDetails job={job?.job}></IrsJobDetails>}
 
@@ -316,7 +312,6 @@ export default function ItemRelationshipService() {
                     }}
                   >
                     {(nodeChild) => (
-                    
                       <foreignObject height={290} width={290} x={0} y={0}>
                         <Box>
                           <NodeTemplate shell={nodeChild.node}></NodeTemplate>
