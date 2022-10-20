@@ -112,16 +112,15 @@ import Switch, { SwitchProps } from '@mui/material/Switch'
 // ✅ Fullscreen Mode conflicts Dialog ==> Use Fullscreen Code to write own functions to handle the Resizing of the component
 // ✅ Automatic Refresh Toggle
 // ✅  Add Area to start a Job; ASK Martin for correct FORM Management
+// ✅ I Result map error when reloading the page while selection on Table exists
 // MAYBE: change visualization to P5.js or D3 https://codesandbox.io/examples/package/react-d3-tree
 // WONTDO: Refactor Visualization on scroll ==> not possible with curren visualization component
 // III TODO: Decople FE from Portal
-// III TODO: Refactor to new API Logic
-// II TODO: DD Functionality to API.tsx Choose button environment int dev A
+// II TODO: ADD Functionality to API.tsx Choose button environment int dev A
 // II TODO: Clean up Index.tsx file and decupple some parts (Error Message)
 // I TODO: Add Form Feedback
 // I TODO: Ask Martin about Data Refresh animation?!
 // I TODO: Rename SubmodelTobmstones.tsx
-// I TODO: Result map error when reloading the page while selection on Table exists
 
 export default function ItemRelationshipService() {
   const { t } = useTranslation()
@@ -134,9 +133,11 @@ export default function ItemRelationshipService() {
   const nodes = useSelector(nodeSelector)
   const edges = useSelector(edgeSelector)
 
-  // console.log('job: ', job)
-  // console.log('node: ', nodes)
-  // console.log('edges: ', edges)
+
+
+  console.log('job: ', job)
+  console.log('node: ', nodes)
+  console.log('edges: ', edges)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -144,16 +145,24 @@ export default function ItemRelationshipService() {
   }, [dispatch])
 
   const [refreshIntervalId, setRefreshIntervalId] = useState<number | any>()
+  const [selectionModel, setSelectionModel] = useState<string>('')
 
+  // console.log('refreshIntervalId: ',refreshIntervalId)
+  // console.log('selectionModel1: ', selectionModel)
   const autoRefresh = (isAutoRefresh: boolean) => {
     if (isAutoRefresh) {
       const refreshInterval = setInterval(() => {
-        console.log('timer', refreshInterval)
-        // Update jobs
+        // console.log('selectionModel',selectionModel)
         dispatch(fetchJobs())
+        if(selectionModel){
+          // console.log('fetchJobById')
+          dispatch(fetchJobById(selectionModel))
+        }
+
       }, 5 * 1000)
       setRefreshIntervalId(refreshInterval)
     } else {
+      console.log('dispose refreshInterval; ', refreshIntervalId)
       clearInterval(refreshIntervalId)
     }
   }
@@ -167,8 +176,10 @@ export default function ItemRelationshipService() {
   }
 
   const visualize = (id: string) => {
-    const encodedId = encodeURIComponent(id)
-    dispatch(fetchJobById(encodedId))
+    if(id){
+      const encodedId = encodeURIComponent(id)
+      dispatch(fetchJobById(encodedId))
+    }
   }
 
   const columns = IrsJobsTableColumns(visualize)
@@ -220,14 +231,16 @@ export default function ItemRelationshipService() {
     <main className="main">
       <IRSJobAddForm></IRSJobAddForm>
 
-      <section style={{ paddingBottom: 20 }}>
+      { jobs && (
+
+        <section style={{ paddingBottom: 20 }}>
         <IOSSwitch
           sx={{ m: 1 }}
           onChange={(event) => {
             // console.log(event.target.checked)
             autoRefresh(event.target.checked)
           }}
-        />
+          />
         {t('content.irs.jobsTable.toggleAutoRefresh')}
         <Table
           // title="IRS Jobs"
@@ -241,11 +254,17 @@ export default function ItemRelationshipService() {
           disableDensitySelector={true}
           hideFooter={true}
           disableColumnMenu={true}
+          selectionModel={selectionModel}
           onSelectionModelChange={(item: any) => {
-            visualize(item.toString())
+            if(item.length == 1 ){
+              const id = item[0].toString()
+              setSelectionModel(id)
+              visualize(id)
+            }
           }}
-        />
+          />
       </section>
+          )}
 
       {job && <IrsJobDetails job={job?.job}></IrsJobDetails>}
 
@@ -297,6 +316,7 @@ export default function ItemRelationshipService() {
                     }}
                   >
                     {(nodeChild) => (
+                    
                       <foreignObject height={290} width={290} x={0} y={0}>
                         <Box>
                           <NodeTemplate shell={nodeChild.node}></NodeTemplate>

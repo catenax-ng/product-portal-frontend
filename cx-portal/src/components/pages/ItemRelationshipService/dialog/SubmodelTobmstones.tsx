@@ -164,7 +164,6 @@ export const SubmodelTobmstones = ({ subModel }: props) => {
 
           {/* <h2 style={{ color: theme.palette.success.main }}>{t('content.irs.dialog.submodelPayload.title')}</h2> */}
           {submodelPayload.map((payload) => {
-            // console.log(payload.payload)
             return (
               <Box key={`${uniqueId(payload.identification)}`}>
                 <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
@@ -177,7 +176,7 @@ export const SubmodelTobmstones = ({ subModel }: props) => {
                       style={googlecode}
                       language="json"
                     >
-                      {JSON.stringify(JSON.parse(payload.payload), null, 2)}
+                      {JSON.stringify(payload , null, 2)}
                     </SyntaxHighlighter>
                   }
                 />

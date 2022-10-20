@@ -129,10 +129,11 @@ export const edgeSelector = (state: RootState): EdgeData<any>[] | [] => {
   if (state.irs.job?.relationships) {
     const ret: EdgeData<any>[] = state.irs.job.relationships.map(
       (rel: any): EdgeData<any> => {
+        console.log(rel)
         return {
           id: uniqueId(rel.catenaXId),
           from: rel.catenaXId,
-          to: rel.childItem.childCatenaXId,
+          to: rel.linkedItem.childCatenaXId,
         }
       }
     )
@@ -173,7 +174,7 @@ export const getEdgebyEdgeIdSelector = createSelector(
       // console.log('edge:', edge)
       return edges.filter(
         (x) =>
-          x.catenaXId === edge.from && x.childItem.childCatenaXId === edge.to
+          x.catenaXId === edge.from && x.linkedItem.childCatenaXId === edge.to
       )
     } else {
       return []

@@ -56,6 +56,8 @@ export const SubmodelDetailCard = ({ submodel, aasId }: props) => {
     submodelId ? getSubmodelPaloadBySubmodelId(state, submodelId) : []
   )
 
+  console.log('submodelPayload', submodelPayload)
+
   if (!tombstones || !submodelPayload) {
     return null
   }

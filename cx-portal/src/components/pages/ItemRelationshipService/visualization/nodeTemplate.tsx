@@ -44,7 +44,7 @@ export const NodeTemplate = ({ shell }: props) => {
     return 0
   }
   const sortedSubmodelDescriptors = [...shell.submodelDescriptors].sort(compare)
-
+  console.log(shell)
   return (
     <>
       <div className="node-header">

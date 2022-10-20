@@ -67,10 +67,10 @@ export interface jobinfo {
 
 export interface Relationship {
   catenaXId: string
-  childItem: childItem
+  linkedItem: linkedItem
 }
 
-interface childItem {
+interface linkedItem {
   assembledOn: string
   childCatenaXId: string
   lastModifiedOn: string

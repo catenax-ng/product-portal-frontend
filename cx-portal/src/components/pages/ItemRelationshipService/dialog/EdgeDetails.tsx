@@ -63,33 +63,33 @@ export const EdgeDetails = ({ edge }: { edge: any }) => {
           <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
           <DetailGrid
             topic={t('content.irs.dialog.edge.childCatenaXId') + ':'}
-            content={edgeInfo[0].childItem.childCatenaXId}
+            content={edgeInfo[0].linkedItem.childCatenaXId}
           />
           <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
           <DetailGrid
             topic={t('content.irs.dialog.edge.assembledOn') + ':'}
-            content={dayjs(edgeInfo[0].childItem.assembledOn).format(
+            content={dayjs(edgeInfo[0].linkedItem.assembledOn).format(
               'YYYY-MM-DD HH:mm:ss'
             )}
           />
           <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
           <DetailGrid
             topic={t('content.irs.dialog.edge.lastModifiedOn') + ':'}
-            content={dayjs(edgeInfo[0].childItem.lastModifiedOn).format(
+            content={dayjs(edgeInfo[0].linkedItem.lastModifiedOn).format(
               'YYYY-MM-DD HH:mm:ss'
             )}
           />
           <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
           <DetailGrid
             topic={t('content.irs.dialog.edge.lifecycleContext') + ':'}
-            content={edgeInfo[0].childItem.lifecycleContext}
+            content={edgeInfo[0].linkedItem.lifecycleContext}
           />
           <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
           <DetailGrid
             topic={
               t('content.irs.dialog.edge.measurementUnit.datatypeURI') + ':'
             }
-            content={edgeInfo[0].childItem.quantity.measurementUnit.datatypeURI}
+            content={edgeInfo[0].linkedItem.quantity.measurementUnit.datatypeURI}
           />
           <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
           <DetailGrid
@@ -97,13 +97,13 @@ export const EdgeDetails = ({ edge }: { edge: any }) => {
               t('content.irs.dialog.edge.measurementUnit.lexicalValue') + ':'
             }
             content={
-              edgeInfo[0].childItem.quantity.measurementUnit.lexicalValue
+              edgeInfo[0].linkedItem.quantity.measurementUnit.lexicalValue
             }
           />
           <Divider sx={{ mb: 2, mr: -2, ml: -2 }} />
           <DetailGrid
             topic={t('content.irs.dialog.edge.quantityNumber') + ':'}
-            content={edgeInfo[0].childItem.quantity.quantityNumber}
+            content={edgeInfo[0].linkedItem.quantity.quantityNumber}
           />
         </>
       )}
