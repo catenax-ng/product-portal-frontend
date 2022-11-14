@@ -46,7 +46,6 @@ import { useSubmitappMutation } from 'features/appManagement/apiSlice'
 import i18next, { changeLanguage } from 'i18next'
 import I18nService from 'services/I18nService'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import _ from 'lodash'
 
 export default function ValidateAndPublish({
   showSubmitPage,
@@ -267,7 +266,7 @@ export default function ValidateAndPublish({
           .map((i: any) => i && i[0]?.documentName)
           .map((item) => (
             <InputLabel sx={{ mb: 0, mt: 3 }} key={item}>
-              <a style={{ display: 'flex' }}>
+              <a href="" style={{ display: 'flex' }}>
                 <ArrowForwardIcon fontSize="small" /> {item}
               </a>
             </InputLabel>
