@@ -266,7 +266,7 @@ export default function ValidateAndPublish({
           .map((i: any) => i && i[0]?.documentName)
           .map((item) => (
             <InputLabel sx={{ mb: 0, mt: 3 }} key={item}>
-              <a href="" style={{ display: 'flex' }}>
+              <a href="#" style={{ display: 'flex' }}>
                 <ArrowForwardIcon fontSize="small" /> {item}
               </a>
             </InputLabel>
