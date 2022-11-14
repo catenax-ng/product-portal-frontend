@@ -188,24 +188,24 @@ export default function AppMarketCard() {
   const [addCreateApp] = useAddCreateAppMutation()
   const [updateDocumentUpload] = useUpdateDocumentUploadMutation()
   const [appCardNotification, setAppCardNotification] = useState(false)
-  const appStatusData: any = useSelector(appStatusDataSelector)
+  const appStatusData = useSelector(appStatusDataSelector)
 
   const defaultValues = {
-    title: appStatusData?.title || '',
-    provider: appStatusData?.provider || '',
-    price: appStatusData?.price || '',
-    useCaseCategory: appStatusData?.useCase || [],
-    appLanguage: appStatusData?.supportedLanguageCodes || [],
+    title: appStatusData?.title,
+    provider: appStatusData?.provider,
+    price: appStatusData?.price,
+    useCaseCategory: appStatusData?.useCase,
+    appLanguage: appStatusData?.supportedLanguageCodes,
     //To do: to be changed once api is available
     salesManagerId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
     shortDescriptionEN:
       appStatusData?.descriptions?.filter(
         (appStatus: any) => appStatus.languageCode === 'en'
-      )[0].shortDescription || '',
+      )[0]?.shortDescription || '',
     shortDescriptionDE:
       appStatusData?.descriptions?.filter(
         (appStatus: any) => appStatus.languageCode === 'de'
-      )[0].shortDescription || '',
+      )[0]?.shortDescription || '',
     uploadImage: {
       leadPictureUri: appStatusData?.leadPictureUri || null,
       alt: '',

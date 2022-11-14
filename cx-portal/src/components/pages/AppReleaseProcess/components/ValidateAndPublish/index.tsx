@@ -122,6 +122,13 @@ export default function ValidateAndPublish({
     }
   }
 
+  const getAppData = (item: string) => {
+    if (item === 'language')
+      return appStatusData.supportedLanguageCodes.join(', ')
+    else if (item === 'useCase') return appStatusData.useCase.join(', ')
+    else if (item === 'price') return appStatusData.price
+  }
+
   return (
     <div className="validate-and-publish">
       <Typography variant="h3" mt={10} mb={4} align="center">
@@ -182,11 +189,7 @@ export default function ValidateAndPublish({
               <div style={{ display: 'flex', marginBottom: '5px' }}>
                 <Typography variant="body2">
                   <b>{t(`content.apprelease.validateAndPublish.${item}`)}</b>
-                  {item === 'price'
-                    ? appStatusData.price
-                    : item === 'language'
-                    ? appStatusData.supportedLanguageCodes.join(', ')
-                    : appStatusData.useCase.join(', ')}
+                  {getAppData(item)}
                 </Typography>
               </div>
             ))}
