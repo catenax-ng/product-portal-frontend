@@ -15,6 +15,7 @@ New features, fixed bugs, known defects and other noteworthy changes to each rel
    * More versatile image component
 * Feature - User Management - fetch roles (api refactoring)
 * Feature - App release process - App status/summary api connect
+* Bugfix - Add User Invite - Field Validations (FE)
 
 
 ## 0.7.0
