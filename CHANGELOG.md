@@ -6,9 +6,12 @@ New features, fixed bugs, known defects and other noteworthy changes to each rel
 ### Unreleased
 * Notifications
    * Design updates
+   * Delete notification
    
 * App Release Process
    *  App status/summary api connect
+ 
+* Feature - Apps & Service Subscription: include consent inside subscription
 
 
 ## 0.8.0
