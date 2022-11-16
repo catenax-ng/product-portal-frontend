@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021,2022 BMW Group AG
+ * Copyright (c) 2021,2022 Mercedes-Benz Group AG and BMW Group AG
  * Copyright (c) 2021,2022 Contributors to the CatenaX (ng) GitHub Organisation.
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -18,31 +18,33 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { apiBaseQuery } from 'utils/rtkUtil'
-import { CXNotification } from './types'
+import { Box } from '@mui/material'
+import { ComponentStory } from '@storybook/react'
+import { Tooltips as Component } from '.'
+import { Button } from '../Button'
 
-export const apiSlice = createApi({
-  reducerPath: 'info/notifications',
-  baseQuery: fetchBaseQuery(apiBaseQuery()),
-  endpoints: (builder) => ({
-    getNotificationCount: builder.query<number, boolean>({
-      query: (read) => `/api/notification/count?isRead=${read}`,
-    }),
-    getNotifications: builder.query<CXNotification, null>({
-      query: () => '/api/notification',
-    }),
-    setNotificationRead: builder.mutation<void, string>({
-      query: (id) => ({
-        url: `/api/notification/${id}/read`,
-        method: 'PUT',
-      }),
-    }),
-  }),
-})
+export default {
+  title: 'Tooltips',
+  component: Component,
+}
 
-export const {
-  useGetNotificationCountQuery,
-  useGetNotificationsQuery,
-  useSetNotificationReadMutation,
-} = apiSlice
+const Template: ComponentStory<typeof Component> = (args: any) => (
+  <Box
+    sx={{
+      margin: '100px',
+    }}
+  >
+    <Component {...args} />
+  </Box>
+)
+
+export const Tooltips = Template.bind({})
+Tooltips.args = {
+  tooltipPlacement: 'bottom-start',
+  tooltipText: 'Action is pending',
+  children: (
+    <span>
+      <Button color="primary">Text</Button>
+    </span>
+  ),
+}
