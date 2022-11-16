@@ -83,13 +83,6 @@ export default function ValidateAndPublish({
         [appStatusData.contactNumber],
       ],
     },
-    consent: [
-      {
-        agreementId: 'uuid',
-        consentStatus: 'ACTIVE',
-        name: 'Agree to the application publishing rules *',
-      },
-    ],
     cxTestRuns: [
       {
         agreementId: 'uuid',
@@ -184,9 +177,9 @@ export default function ValidateAndPublish({
               />
             </div>
           </Grid>
-          <Grid sx={{ paddingLeft: '71px', marginTop: '22%' }} md={8}>
-            {['language', 'useCase', 'price'].map((item: any) => (
-              <div style={{ display: 'flex', marginBottom: '5px' }}>
+          <Grid item sx={{ paddingLeft: '71px', marginTop: '22%' }} md={8}>
+            {['language', 'useCase', 'price'].map((item, i) => (
+              <div style={{ display: 'flex', marginBottom: '5px' }} key={i}>
                 <Typography variant="body2">
                   <b>{t(`content.apprelease.validateAndPublish.${item}`)}</b>
                   {getAppData(item)}
@@ -200,8 +193,8 @@ export default function ValidateAndPublish({
         <Typography variant="h4" sx={{ mb: 4 }}>
           {t('content.apprelease.validateAndPublish.appDetails')}
         </Typography>
-        {['longDescriptionEN', 'longDescriptionDE'].map((item) => (
-          <div>
+        {['longDescriptionEN', 'longDescriptionDE'].map((item, i) => (
+          <div key={i}>
             {item === 'longDescriptionEN' ? (
               <Typography variant="body2" className="form-field">
                 <span style={{ fontWeight: 'bold' }}>
@@ -230,8 +223,8 @@ export default function ValidateAndPublish({
           </div>
         ))}
         <div style={{ display: 'flex' }}>
-          {defaultValues.images?.map((img) => (
-            <Box sx={{ margin: '37px auto 0 auto' }}>
+          {defaultValues.images?.map((img, i) => (
+            <Box sx={{ margin: '37px auto 0 auto' }} key={i}>
               <img
                 src={img}
                 alt={'images'}
@@ -265,12 +258,12 @@ export default function ValidateAndPublish({
         <Typography variant="body2" className="form-field">
           {defaultValues.documentsDescription}
         </Typography>
-        {Object.values(appStatusData.documents)
-          .map((i: any) => i && i[0]?.documentName)
-          .map((item) => (
-            <InputLabel sx={{ mb: 0, mt: 3 }} key={item}>
+        {appStatusData?.documents &&
+          Object.keys(appStatusData.documents).map((item, i) => (
+            <InputLabel sx={{ mb: 0, mt: 3 }} key={i}>
               <a href="#" style={{ display: 'flex' }}>
-                <ArrowForwardIcon fontSize="small" /> {item}
+                <ArrowForwardIcon fontSize="small" />
+                {appStatusData.documents[item][0].documentName}
               </a>
             </InputLabel>
           ))}
@@ -286,16 +279,18 @@ export default function ValidateAndPublish({
           {t('content.apprelease.validateAndPublish.consent')}
         </Typography>
         <div className="form-field">
-          {defaultValues.consent?.map((item: any, index: number) => (
-            <div>
-              <Checkbox
-                key={index}
-                label={item.name}
-                checked={item.consentStatus === 'ACTIVE'}
-                disabled
-              />
-            </div>
-          ))}
+          {appStatusData?.agreements?.map(
+            (item: { name: string; consentStatus: string }, index: number) => (
+              <div key={index}>
+                <Checkbox
+                  key={index}
+                  label={item.name}
+                  checked={item.consentStatus === 'ACTIVE'}
+                  disabled
+                />
+              </div>
+            )
+          )}
         </div>
 
         <Divider className="verify-validate-form-divider" />
@@ -304,7 +299,7 @@ export default function ValidateAndPublish({
         </Typography>
         <div className="form-field">
           {defaultValues.cxTestRuns?.map((item: any, index: number) => (
-            <div>
+            <div key={index}>
               <Checkbox
                 key={index}
                 label={item.name}

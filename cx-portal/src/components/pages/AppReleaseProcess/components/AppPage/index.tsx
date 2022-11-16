@@ -120,7 +120,7 @@ export default function AppPage() {
 
   useEffect(() => {
     if (getValues().uploadDataContract !== null)
-      uploadDocumentApi(appId, 'DATA_CONTRACT', uploadDataContractValue)
+      uploadDocumentApi(appId, 'APP_DATA_DETAILS', uploadDataContractValue)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadDataContractValue])
 
@@ -136,7 +136,11 @@ export default function AppPage() {
 
   useEffect(() => {
     if (getValues().uploadTechnicalGuide !== null)
-      uploadDocumentApi(appId, 'ADDITIONAL_DETAILS', uploadTechnicalGuideValue)
+      uploadDocumentApi(
+        appId,
+        'APP_TECHNICAL_INFORMATION',
+        uploadTechnicalGuideValue
+      )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadTechnicalGuideValue])
 

@@ -197,7 +197,7 @@ export default function AppMarketCard() {
     useCaseCategory: appStatusData?.useCase,
     appLanguage: appStatusData?.supportedLanguageCodes,
     //To do: to be changed once api is available
-    salesManagerId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    salesManagerId: 'ac1cf001-7fbc-1f2f-817f-bce058020001',
     shortDescriptionEN:
       appStatusData?.descriptions?.filter(
         (appStatus: any) => appStatus.languageCode === 'en'

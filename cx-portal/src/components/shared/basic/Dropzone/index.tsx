@@ -82,10 +82,11 @@ export const Dropzone = ({
         />
       )}
 
-      {fileRejections?.map(({ errors }) => (
+      {fileRejections?.map(({ errors }, index: number) => (
         <Typography
           variant="body2"
           sx={{ color: '#d32f2f', fontSize: '0.75rem', mt: 1 }}
+          key={index}
         >
           {errors && errors[0]?.message}
         </Typography>
